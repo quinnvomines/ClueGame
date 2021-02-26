@@ -1,2 +1,2 @@
-Quinn Vo, Luc Lafave
+Quinn Vo, Luc Lafave,
 Section A
