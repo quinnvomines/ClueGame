@@ -7,6 +7,10 @@ import java.util.Set;
  * @author Luc Lafave
  */
 public class TestBoard {
+	//Constants
+	private final static int COLS = 25;
+	private final static int ROWS = 31;
+	
 	//board is 2d array of cells
 	private TestBoardCell[][] board;
 	//move targets list
@@ -14,11 +18,10 @@ public class TestBoard {
 	//which cells have been visited by player
 	Set<TestBoardCell> visitedList;
 	
+	
 	//create a simple 4 by 4 board and fill the board with cells at their correct location on the board
 	public TestBoard() {
-		board = new TestBoardCell[4][4];
-		targetsList = new HashSet<TestBoardCell>();
-		
+		board = new TestBoardCell[ROWS][COLS];
 		for(int row = 0; row < board.length; row++) {
 			for(int col = 0; col < board[row].length; col++) {
 				board[row][col] = new TestBoardCell(row, col);
@@ -29,12 +32,31 @@ public class TestBoard {
 	
 	//figure out what locations the player can move to
 	public void calcTargets(TestBoardCell startCell, int pathLength) {
-	
+		visitedList = new HashSet<TestBoardCell>();
+		targetsList = new HashSet<TestBoardCell>();
+		
+		visitedList.add(startCell);
+		findAllTargets(startCell,pathLength);
 	}
 	
 	//recursive function to find the locations the player can move to
-	public Set<TestBoardCell> findAllTargets(TestBoardCell startCell,int pathLength) {
-		return null;
+	public void findAllTargets(TestBoardCell thisCell,int numSteps) {
+		for (TestBoardCell c : thisCell.getAdjList()) {
+			if(!(visitedList.contains(c)))
+			{
+				visitedList.add(c);
+				if(numSteps == 1)
+				{
+					targetsList.add(c);
+				}
+				else
+				{
+					findAllTargets(c,numSteps - 1);
+				}
+			}
+			
+			visitedList.remove(c);
+		}
 	}
 	
 	//get current cell on board

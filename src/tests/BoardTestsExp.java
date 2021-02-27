@@ -128,8 +128,6 @@ class BoardTestsExp {
 		assertTrue(targets.contains(board.getCell(2, 3)));
 		assertTrue(targets.contains(board.getCell(2, 1)));
 		
-		
-		
 	}
 
 }
