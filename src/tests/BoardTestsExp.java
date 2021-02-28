@@ -111,7 +111,6 @@ class BoardTestsExp {
 		TestBoardCell cell = board.getCell(0, 3);
 		board.calcTargets(cell, 3);
 		Set<TestBoardCell> targets = board.getTargets();
-		System.out.print(targets);
 		assertEquals(3, targets.size());
 		assertTrue(targets.contains(board.getCell(1, 2)));
 		assertTrue(targets.contains(board.getCell(2, 2)));

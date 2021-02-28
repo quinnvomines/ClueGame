@@ -5,3 +5,5 @@ Recreation Center. We also created label and center tests for each of the 9 room
 different positions from the 306 board. 
 
 We also tested the usage of a secret passage and the unused closet space in room tests. 
+
+Added first last and null checks for cells to make sure we are reading in the file correctly. This was not even present in the fileinit306 tests.

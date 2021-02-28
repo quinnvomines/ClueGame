@@ -1,0 +1,55 @@
+commit faeec45826cd78ace2d7e68020269975a7fc662d
+Author: LucLafave <luclafave@mymail.mines.edu>
+Date:   Sat Feb 27 19:21:54 2021 -0700
+
+    Added files to data
+
+commit 38d001156a6bb10d271ff2a63cd6de21a0dbd1b4
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Sat Feb 27 19:21:00 2021 -0700
+
+    Added JUnit testing and stubs
+
+commit 0a2995604b8e037b5712746242a90389f29b52a3
+Author: LucLafave <luclafave@mymail.mines.edu>
+Date:   Sat Feb 27 17:17:19 2021 -0700
+
+    Got all tests to work
+
+commit 464360b8130d41823c59a55f42c281bbe24c5943
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Sat Feb 27 16:44:30 2021 -0700
+
+    Made calcTargets
+
+commit 6ffdd3ed7db6a6e713af0e0aa554ce8708fbe38f
+Merge: 98aff5e a45c306
+Author: LucLafave <luclafave@mymail.mines.edu>
+Date:   Thu Feb 25 18:34:36 2021 -0700
+
+    Merge branch 'master' of https://github.com/quinnvomines/ClueGame
+    Added code to JUnit Testing
+
+commit 98aff5e405cde6d48c822425cab45860530af67a
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Thu Feb 25 18:32:06 2021 -0700
+
+    Added gitlog.txt
+
+commit 3728743d08c0d778ac3e3355323261fd743ee227
+Author: LucLafave <luclafave@mymail.mines.edu>
+Date:   Thu Feb 25 18:24:16 2021 -0700
+
+    Added BoardTestsExp
+
+commit a45c3069de49bbd2ddc73e74177306fc75052a66
+Author: quinnvomines <77461853+quinnvomines@users.noreply.github.com>
+Date:   Thu Feb 25 11:57:33 2021 -0700
+
+    Update README.md
+
+commit 8d890784126009165884ad3a00ad73a16a1d6f86
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Thu Feb 25 01:16:47 2021 -0700
+
+    Added code to TestBoard and TestBoardCell
