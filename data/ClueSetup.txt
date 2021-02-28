@@ -1,0 +1,13 @@
+//Rooms and room cards
+Room, Classroom, C
+Room, Lecture Hall, L
+Room, Bathroom, B
+Room, Laboratory, A
+Room, Student Center, S
+Room, Recreation Center, R
+Room, Dormitory, D
+Room, Dining Room, E
+Room, Visitor Center, O
+// other spaces on board
+Space, Unused, X
+Space, Walkway, W

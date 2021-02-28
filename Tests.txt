@@ -1,0 +1,7 @@
+Our room has 31 rows and 25 columns which is different from 306 board. Our board has 12 doors vs the 306 of 17 doors.
+
+We have a door going to the left for the Student Center, up for the Lecture Hall, down for the Classroom, and right for the
+Recreation Center. We also created label and center tests for each of the 9 rooms specifically for our Clue game, which have
+different positions from the 306 board. 
+
+We also tested the usage of a secret passage and the unused closet space in room tests. 
