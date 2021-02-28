@@ -19,7 +19,11 @@ public class TestBoardCell {
 	public TestBoardCell(int row, int column) {
 		this.row = row;
 		this.column = column;
+		
+		//Create adjacency list
 		adjMtx = new HashSet<TestBoardCell>();
+
+
 	}
 
 	//Add a cell to the adjacency list
@@ -51,5 +55,11 @@ public class TestBoardCell {
 	public void setOccupied(boolean occupied) {
 		this.occupied = occupied;
 	}
+
+	@Override
+	public String toString() {
+		return "TestBoardCell [row=" + row + ", column=" + column + "] ";
+	}
+	
 	
 }

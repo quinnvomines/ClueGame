@@ -62,7 +62,7 @@ class BoardTestsExp {
 		assertTrue(testList.contains(board.getCell(3, 2)));
 		assertTrue(testList.contains(board.getCell(1, 2)));
 		assertTrue(testList.contains(board.getCell(2, 1)));
-		assertEquals(2, testList.size());
+		assertEquals(4, testList.size());
 		
 	}
 	
@@ -99,18 +99,19 @@ class BoardTestsExp {
 		assertTrue(targets.contains(board.getCell(1, 1)));
 		assertTrue(targets.contains(board.getCell(2, 0)));
 		assertTrue(targets.contains(board.getCell(3, 1)));
-		
+	
 		
 	}
 	
 	@Test
 	public void testTargetsMixed() {
-		//start at (0, 3); calculate targest within 3 steps with an occupied cell at (0,2)
+		//start at (0, 3); calculate targets within 3 steps with an occupied cell at (0,2)
 		board.getCell(0, 2).setOccupied(true);
 		board.getCell(1, 2).setRoom(true);
 		TestBoardCell cell = board.getCell(0, 3);
 		board.calcTargets(cell, 3);
 		Set<TestBoardCell> targets = board.getTargets();
+		System.out.print(targets);
 		assertEquals(3, targets.size());
 		assertTrue(targets.contains(board.getCell(1, 2)));
 		assertTrue(targets.contains(board.getCell(2, 2)));
