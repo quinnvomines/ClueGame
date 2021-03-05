@@ -16,9 +16,86 @@ public class BoardCell {
 	private boolean inRoom;
 	private Set<TestBoardCell> adjMtx;
 	private boolean occupied;
+	private boolean unused;
+	private boolean isDoorway;
 
-	public BoardCell(int row, int col) {
+	public BoardCell(int row, int col, String cellValue) {
+		this.row = row;
+		this.column = column;
+		this.initial = cellValue.charAt(0);
+		if(cellValue.length() > 1)
+		{
+			if(cellValue.charAt(1) == '^') {
+				doorDirection = DoorDirection.UP;
+				roomCenter = false;
+				roomLabel = false;
+				inRoom = false;
+				
+				isDoorway = true;
+			} else if(cellValue.charAt(1) == '<') {
+				doorDirection = DoorDirection.LEFT;
+				roomCenter = false;
+				roomLabel = false;
+				inRoom = false;
+				
+				isDoorway = true;
+			} else if(cellValue.charAt(1) == '>') {
+				doorDirection = DoorDirection.RIGHT;
+				roomCenter = false;
+				roomLabel = false;
+				inRoom = false;
+				
+				isDoorway = true;
+			} else if(cellValue.charAt(1) == 'v') {
+				doorDirection = DoorDirection.DOWN;
+				roomCenter = false;
+				roomLabel = false;
+				inRoom = false;
+				
+				isDoorway = true;
+			} else if(cellValue.charAt(1) == '*') {
+				doorDirection = DoorDirection.NONE;
+				roomCenter = true;
+				roomLabel = false;
+				inRoom = true;
+			} else if(cellValue.charAt(1) == '#') {
+				doorDirection = DoorDirection.NONE;
+				roomCenter = false;
+				roomLabel = true;
+				inRoom = true;
+			} else {
+				roomCenter = false;
+				roomLabel = false;
+				inRoom = true;
+				doorDirection = DoorDirection.NONE;
+				secretPassage = cellValue.charAt(1);
+			}
+			occupied = false;
+			unused = false;
+		}
+		else {
+			doorDirection = DoorDirection.NONE;
+			if(initial == 'X') {
+				unused = true;
+				inRoom = false;
+			}
+			else if(initial != 'W') {
+				inRoom = true;
+			}
+			else {
+				inRoom = false;
+			}
+			roomLabel = false;
+			roomCenter = false;
+			occupied = false;
+			
+		}
+		
+		
+	}
 
+	public char getInitial() {
+		return initial;
 	}
 
 	//Add a cell to the adjacency list
@@ -76,7 +153,7 @@ public class BoardCell {
 
 	//return if cell is doorawy
 	public boolean isDoorway() {
-		return false;
+		return isDoorway;
 	}
 
 	//check door direction of cell

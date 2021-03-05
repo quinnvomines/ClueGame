@@ -1,3 +1,9 @@
+commit 94256396550da25c06e9c02374cc78876867fd2e (HEAD -> master)
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Sun Feb 28 16:48:48 2021 -0700
+
+    Added first and last cell tests in FileInitTest.java
+
 commit faeec45826cd78ace2d7e68020269975a7fc662d
 Author: LucLafave <luclafave@mymail.mines.edu>
 Date:   Sat Feb 27 19:21:54 2021 -0700
