@@ -19,7 +19,7 @@ public class Board {
 	private String layoutConfigFile;
 	private String setupConfigFile;
 
-	private Map<Character, Room> roomMap = new HashMap<Character, Room>();
+	private Map<Character, Room> roomMap;
 
 	/*
 	 * variable and methods used for singleton pattern
@@ -39,12 +39,18 @@ public class Board {
 	public void initialize()
 	{
 		try {
-			loadSetupConfig();
-			loadLayoutConfig();
+			
+			loadSetupConfig(); //Load the setup file (txt)
+			loadLayoutConfig(); //Load the layout file (csv)
+			
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			
+			e.getMessage();
+			
 		} catch (BadConfigFormatException b) {
+			
 			b.getMessage();
+		
 		}
 	}
 
@@ -55,31 +61,38 @@ public class Board {
 	}
 
 
-	//stub; load setup config
-	public void loadSetupConfig() throws FileNotFoundException, BadConfigFormatException {
-
-		FileReader file = new FileReader(setupConfigFile);
+	//load setup config
+		roomMap = new HashMap<Character, Room>(); //Initialize map
+		
+		//Variables to prepare reading in from Setup file
+		FileReader file = new FileReader(setupConfigFile); 
 		Scanner scan = new Scanner(file);
-		ArrayList<String[]> input = new ArrayList<String[]>();
+		
+		ArrayList<String[]> input = new ArrayList<String[]>(); //Will hold data from file
+		
 		String line;
 		while(scan.hasNextLine())
 		{
-			line = scan.nextLine();
-			if(!(line.startsWith("//"))) {
-				String[] row = line.split(", ");
-				input.add(row);
+			line = scan.nextLine(); //Read a line from Setup file
+			
+			if(!(line.startsWith("//"))) { //Skip if it is a comment
+				String[] row = line.split(", "); 
+				input.add(row); //Add row of data to ArrayList
 			}
 		}
 
 		for(int i = 0; i < input.size(); i++)
 		{
+			
 			if(input.get(i)[0].equals("Room") || input.get(i)[0].equals("Space"))
 			{
+				//Make a new room and add to map with the corresponding initial
 				Room room = new Room(input.get(i)[1]);
 				char charMap = (input.get(i)[2]).charAt(0);
 				roomMap.put(charMap, room);
 			}
 			else {
+				//Throw exception if it is not a Room or a Space
 				throw new BadConfigFormatException("Bad format in setup file");
 			}
 		}
@@ -87,63 +100,75 @@ public class Board {
 
 	}
 
-	//stub; load layout config
+	//load layout config
 	public void loadLayoutConfig() throws FileNotFoundException, BadConfigFormatException{
+		//Variables to prepare file read in
 		FileReader file = new FileReader(layoutConfigFile);
 		Scanner scan = new Scanner(file);
-		ArrayList<String[]> input = new ArrayList<String[]>();
+		
+		ArrayList<String[]> input = new ArrayList<String[]>(); //ArrayList holds data from file
+		
 		String line;
 		while(scan.hasNextLine()) {
-			line = scan.nextLine();
+			line = scan.nextLine(); //Read a line from Layout file
 			String[] row = line.split(",");
-			input.add(row);
+			input.add(row); //Add data to ArrayList
 		}
-		board = new BoardCell[input.size()][input.get(0).length];
+		
+		board = new BoardCell[input.size()][input.get(0).length]; //Initialize board
 
 		numRows = input.size();
 		numCols = input.get(0).length;
 		for(int i = 0; i < input.size(); i++) {
+			
+			//Throw exception if there are missing values 
 			if(input.get(i).length != numCols) {
 				throw new BadConfigFormatException("Column contains empty values");
 			}
+			
 			for(int j = 0; j < input.get(i).length; j++) {
 
-				BoardCell cell = new BoardCell(i, j, input.get(i)[j]);
+				BoardCell cell = new BoardCell(i, j, input.get(i)[j]); //new BoardCell
+				
+				//Check if roomMap has initial read in from file
 				if(!(roomMap.containsKey(cell.getInitial()))) {
+					//Throws Exception if initial isn't valid
 					throw new BadConfigFormatException("Cell initial is not a room");
 				}
 				else {
-					if(cell.isRoomCenter())
+					if(cell.isRoomCenter()) //Check if it is a center
 					{
+						//Set as center cell 
 						char init = cell.getInitial();
 						roomMap.get(init).setCenterCell(cell);
 					}
-					else if(cell.isLabel()) 
+					else if(cell.isLabel()) //Check if it is a label
 					{
+						//Set as label cell
 						char init = cell.getInitial();
 						roomMap.get(init).setLabelCell(cell);
 					}
-					board[i][j] = cell;
+					board[i][j] = cell; //Add to board
 				}
 			}
 		}
 
 	}
 
-	//stub; returns room given initial
+	//returns room given initial
 	public Room getRoom(char roomInitial) {
 		return roomMap.get(roomInitial);
 	}
 
-	//stub; returns room given cell
+	//returns room given cell
 	public Room getRoom(BoardCell cell) {
 		return roomMap.get(cell.getInitial());
 	}
 
-	//stub; gets cell
+	//Gets cell given a row and column
 	public BoardCell getCell(int row, int col) {
 		if(row >= numRows || col >= numCols) {	
-			return null;
+			return null; //Return null if not a valid row or column
 		}
 		return board[row][col];
 	}

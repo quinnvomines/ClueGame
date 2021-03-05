@@ -5,81 +5,35 @@ import java.util.Set;
 import experiment.TestBoardCell;
 
 public class BoardCell {
-	//Location of cell on board
-	private int row;
-	private int column;
+
+	//Instance variables
 	private char initial;
 	private DoorDirection doorDirection;
 	private boolean roomLabel;
 	private boolean roomCenter;
 	private char secretPassage;
 	private boolean inRoom;
-	private Set<TestBoardCell> adjMtx;
 	private boolean occupied;
 	private boolean unused;
 	private boolean isDoorway;
+
+	private int row; //Location of cell on board
+	private int column; //Location of cell on board
+
+	private Set<TestBoardCell> adjMtx;
 
 	public BoardCell(int row, int col, String cellValue) {
 		this.row = row;
 		this.column = column;
 		this.initial = cellValue.charAt(0);
-		if(cellValue.length() > 1)
-		{
-			if(cellValue.charAt(1) == '^') {
-				doorDirection = DoorDirection.UP;
-				roomCenter = false;
-				roomLabel = false;
-				inRoom = false;
-				
-				isDoorway = true;
-			} else if(cellValue.charAt(1) == '<') {
-				doorDirection = DoorDirection.LEFT;
-				roomCenter = false;
-				roomLabel = false;
-				inRoom = false;
-				
-				isDoorway = true;
-			} else if(cellValue.charAt(1) == '>') {
-				doorDirection = DoorDirection.RIGHT;
-				roomCenter = false;
-				roomLabel = false;
-				inRoom = false;
-				
-				isDoorway = true;
-			} else if(cellValue.charAt(1) == 'v') {
-				doorDirection = DoorDirection.DOWN;
-				roomCenter = false;
-				roomLabel = false;
-				inRoom = false;
-				
-				isDoorway = true;
-			} else if(cellValue.charAt(1) == '*') {
-				doorDirection = DoorDirection.NONE;
-				roomCenter = true;
-				roomLabel = false;
-				inRoom = true;
-			} else if(cellValue.charAt(1) == '#') {
-				doorDirection = DoorDirection.NONE;
-				roomCenter = false;
-				roomLabel = true;
-				inRoom = true;
-			} else {
-				roomCenter = false;
-				roomLabel = false;
-				inRoom = true;
-				doorDirection = DoorDirection.NONE;
-				secretPassage = cellValue.charAt(1);
-			}
-			occupied = false;
-			unused = false;
-		}
-		else {
+
+		if(cellValue.length() == 1) {
 			doorDirection = DoorDirection.NONE;
-			if(initial == 'X') {
+			if(initial == 'X') { //Unused
 				unused = true;
 				inRoom = false;
 			}
-			else if(initial != 'W') {
+			else if(initial != 'W') { //If not a walkway, must be in a room
 				inRoom = true;
 			}
 			else {
@@ -88,12 +42,58 @@ public class BoardCell {
 			roomLabel = false;
 			roomCenter = false;
 			occupied = false;
-			
+
+			return;
 		}
-		
-		
+
+		//Set instance variables accordingly if more than 1 characters
+		if(cellValue.charAt(1) == '^') { //Door points up
+			doorDirection = DoorDirection.UP;
+			roomCenter = false;
+			roomLabel = false;
+			inRoom = false;
+			isDoorway = true;
+		} else if(cellValue.charAt(1) == '<') { //Door points left
+			doorDirection = DoorDirection.LEFT;
+			roomCenter = false;
+			roomLabel = false;
+			inRoom = false;
+			isDoorway = true;
+		} else if(cellValue.charAt(1) == '>') { //Door points right
+			doorDirection = DoorDirection.RIGHT;
+			roomCenter = false;
+			roomLabel = false;
+			inRoom = false;
+			isDoorway = true;
+		} else if(cellValue.charAt(1) == 'v') { //Door points down
+			doorDirection = DoorDirection.DOWN;
+			roomCenter = false;
+			roomLabel = false;
+			inRoom = false;
+			isDoorway = true;
+		} else if(cellValue.charAt(1) == '*') { //Room center
+			doorDirection = DoorDirection.NONE;
+			roomCenter = true;
+			roomLabel = false;
+			inRoom = true;
+		} else if(cellValue.charAt(1) == '#') { //Room label
+			doorDirection = DoorDirection.NONE;
+			roomCenter = false;
+			roomLabel = true;
+			inRoom = true;
+		} else {
+			roomCenter = false;
+			roomLabel = false;
+			inRoom = true;
+			doorDirection = DoorDirection.NONE;
+			secretPassage = cellValue.charAt(1);
+		}
+		occupied = false;
+		unused = false;
+
 	}
 
+	//Gets initial
 	public char getInitial() {
 		return initial;
 	}
@@ -102,11 +102,13 @@ public class BoardCell {
 	public void addAdjacency( TestBoardCell cell ) {
 		adjMtx.add(cell);
 	}
-	
+
+	//Gets row
 	public int getRow() {
 		return row;
 	}
 
+	//Gets column
 	public int getColumn() {
 		return column;
 	}
@@ -136,6 +138,7 @@ public class BoardCell {
 		this.occupied = occupied;
 	}
 
+	//For testing purposes
 	@Override
 	public String toString() {
 		return "TestBoardCell [row=" + row + ", column=" + column + "] ";
@@ -145,7 +148,7 @@ public class BoardCell {
 	public char getSecretPassage() {
 		return secretPassage;
 	}
-	
+
 	//set cell to secret passage
 	public void setSecretPassage(char secretPassage) {
 		this.secretPassage = secretPassage;

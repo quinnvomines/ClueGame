@@ -22,24 +22,27 @@ public class Room {
 		this.name = name;
 	}
 	
+	//Set center cell
 	public void setCenterCell(BoardCell centerCell) {
 		this.centerCell = centerCell;
 	}
 
+	//Set label cell
 	public void setLabelCell(BoardCell labelCell) {
 		this.labelCell = labelCell;
 	}
 
-	//stub; gets cell label
+	//Gets cell label
 	public BoardCell getLabelCell() {
 		return labelCell;
 	}
 	
-	//stub; gets center cell
+	//Gets center cell
 	public BoardCell getCenterCell() {
 		return centerCell;
 	}
 
+	//Testing purposes
 	@Override
 	public String toString() {
 		return "Room [name=" + name + "]";
