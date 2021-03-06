@@ -12,7 +12,7 @@ import clueGame.DoorDirection;
 import clueGame.Room;
 
 
-public class FileInitTest {
+public class FileInitTests {
 	private final static int COLS = 24;
 	private final static int ROWS = 31;
 

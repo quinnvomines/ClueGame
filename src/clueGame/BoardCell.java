@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import experiment.TestBoardCell;
@@ -20,7 +21,7 @@ public class BoardCell {
 	private int row; //Location of cell on board
 	private int column; //Location of cell on board
 
-	private Set<TestBoardCell> adjMtx;
+	private Set<BoardCell> adjMtx;
 
 	public BoardCell(int row, int col, String cellValue) {
 		this.row = row;
@@ -99,7 +100,7 @@ public class BoardCell {
 	}
 
 	//Add a cell to the adjacency list
-	public void addAdjacency( TestBoardCell cell ) {
+	public void addAdjacency( BoardCell cell ) {
 		adjMtx.add(cell);
 	}
 
@@ -113,9 +114,9 @@ public class BoardCell {
 		return column;
 	}
 
-	//Returns a set of cells adjacent to this cell
-	public Set<TestBoardCell> getAdjList(){
-		return adjMtx;
+	//stub; get adjacency list
+	public Set<BoardCell> getAdjList(){
+		return new HashSet<BoardCell>();
 	}
 
 	//update what room the cell is in

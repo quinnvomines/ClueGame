@@ -1,3 +1,15 @@
+commit 52c0ca3e5b3babc66cd7e125aadf830789bc752b (HEAD -> master)
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Fri Mar 5 12:50:50 2021 -0700
+
+    Refactored
+
+commit 0152520bcfda91180a87bbf5a6c102534a8a59c1
+Author: LucLafave <luclafave@mymail.mines.edu>
+Date:   Fri Mar 5 10:05:55 2021 -0700
+
+    Got FileInit and ExceptionTests working
+
 commit 94256396550da25c06e9c02374cc78876867fd2e (HEAD -> master)
 Author: Quinn <quinnvo3004724@gmail.com>
 Date:   Sun Feb 28 16:48:48 2021 -0700

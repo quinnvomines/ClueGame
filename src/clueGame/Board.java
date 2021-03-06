@@ -4,8 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import experiment.TestBoardCell;
 
@@ -18,6 +20,11 @@ public class Board {
 
 	private String layoutConfigFile;
 	private String setupConfigFile;
+
+	//move targets list
+	private Set<BoardCell> targetsList;
+	//which cells have been visited by player
+	Set<BoardCell> visitedList;
 
 	private Map<Character, Room> roomMap;
 
@@ -39,18 +46,18 @@ public class Board {
 	public void initialize()
 	{
 		try {
-			
+
 			loadSetupConfig(); //Load the setup file (txt)
 			loadLayoutConfig(); //Load the layout file (csv)
-			
+
 		} catch (FileNotFoundException e) {
-			
+
 			e.getMessage();
-			
+
 		} catch (BadConfigFormatException b) {
-			
+
 			b.getMessage();
-		
+
 		}
 	}
 
@@ -62,19 +69,21 @@ public class Board {
 
 
 	//load setup config
+	public void loadSetupConfig() throws FileNotFoundException, BadConfigFormatException {
+
 		roomMap = new HashMap<Character, Room>(); //Initialize map
-		
+
 		//Variables to prepare reading in from Setup file
 		FileReader file = new FileReader(setupConfigFile); 
 		Scanner scan = new Scanner(file);
-		
+
 		ArrayList<String[]> input = new ArrayList<String[]>(); //Will hold data from file
-		
+
 		String line;
 		while(scan.hasNextLine())
 		{
 			line = scan.nextLine(); //Read a line from Setup file
-			
+
 			if(!(line.startsWith("//"))) { //Skip if it is a comment
 				String[] row = line.split(", "); 
 				input.add(row); //Add row of data to ArrayList
@@ -83,7 +92,7 @@ public class Board {
 
 		for(int i = 0; i < input.size(); i++)
 		{
-			
+
 			if(input.get(i)[0].equals("Room") || input.get(i)[0].equals("Space"))
 			{
 				//Make a new room and add to map with the corresponding initial
@@ -105,31 +114,31 @@ public class Board {
 		//Variables to prepare file read in
 		FileReader file = new FileReader(layoutConfigFile);
 		Scanner scan = new Scanner(file);
-		
+
 		ArrayList<String[]> input = new ArrayList<String[]>(); //ArrayList holds data from file
-		
+
 		String line;
 		while(scan.hasNextLine()) {
 			line = scan.nextLine(); //Read a line from Layout file
 			String[] row = line.split(",");
 			input.add(row); //Add data to ArrayList
 		}
-		
+
 		board = new BoardCell[input.size()][input.get(0).length]; //Initialize board
 
 		numRows = input.size();
 		numCols = input.get(0).length;
 		for(int i = 0; i < input.size(); i++) {
-			
+
 			//Throw exception if there are missing values 
 			if(input.get(i).length != numCols) {
 				throw new BadConfigFormatException("Column contains empty values");
 			}
-			
+
 			for(int j = 0; j < input.get(i).length; j++) {
 
 				BoardCell cell = new BoardCell(i, j, input.get(i)[j]); //new BoardCell
-				
+
 				//Check if roomMap has initial read in from file
 				if(!(roomMap.containsKey(cell.getInitial()))) {
 					//Throws Exception if initial isn't valid
@@ -153,6 +162,36 @@ public class Board {
 			}
 		}
 
+	}
+
+	//figure out what locations the player can move to
+	public void calcTargets(BoardCell startCell, int pathLength) {
+		visitedList = new HashSet<BoardCell>();
+		targetsList = new HashSet<BoardCell>();
+
+		visitedList.add(startCell);
+		findAllTargets(startCell,pathLength);
+	}
+
+	//recursive function to find the locations the player can move to
+	public void findAllTargets(BoardCell thisCell,int numSteps) {
+		for (BoardCell c : thisCell.getAdjList()) {
+			if(!(visitedList.contains(c)) && !(c.getOccupied()))
+			{
+
+				visitedList.add(c);
+				if(numSteps == 1 || c.isRoom())
+				{
+					targetsList.add(c);
+				}
+				else
+				{
+					findAllTargets(c,numSteps - 1);
+				}
+				visitedList.remove(c);
+			}
+
+		}
 	}
 
 	//returns room given initial
@@ -181,6 +220,16 @@ public class Board {
 	//returns number of rows
 	public int getNumRows() {
 		return numRows;
+	}
+	
+	//stub; get adjacent list
+	public Set<BoardCell> getAdjList(int i, int j) {
+		return new HashSet<BoardCell>();
+	}
+	
+	//stub; get targets
+	public Set<BoardCell> getTargets() {
+		return new HashSet<BoardCell>();
 	}
 
 
