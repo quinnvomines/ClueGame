@@ -13,6 +13,7 @@ public class BoardCell {
 	private boolean roomLabel;
 	private boolean roomCenter;
 	private char secretPassage;
+	private boolean isSecretPassage;
 	private boolean inRoom;
 	private boolean occupied;
 	private boolean unused;
@@ -24,9 +25,12 @@ public class BoardCell {
 	private Set<BoardCell> adjMtx;
 
 	public BoardCell(int row, int col, String cellValue) {
+		adjMtx = new HashSet<BoardCell>();
+		
 		this.row = row;
-		this.column = column;
+		this.column = col;
 		this.initial = cellValue.charAt(0);
+		isSecretPassage = false;
 
 		if(cellValue.length() == 1) {
 			doorDirection = DoorDirection.NONE;
@@ -43,7 +47,7 @@ public class BoardCell {
 			roomLabel = false;
 			roomCenter = false;
 			occupied = false;
-
+			
 			return;
 		}
 
@@ -87,16 +91,28 @@ public class BoardCell {
 			roomLabel = false;
 			inRoom = true;
 			doorDirection = DoorDirection.NONE;
+			isSecretPassage = true;
 			secretPassage = cellValue.charAt(1);
 		}
 		occupied = false;
 		unused = false;
 
 	}
+	
+	//Returns whether it is a secret passage
+	public boolean isSecretPassage() {
+		return isSecretPassage;
+	}
+
 
 	//Gets initial
 	public char getInitial() {
 		return initial;
+	}
+
+	//Getter for unused
+	public boolean isUnused() {
+		return unused;
 	}
 
 	//Add a cell to the adjacency list
@@ -116,7 +132,7 @@ public class BoardCell {
 
 	//stub; get adjacency list
 	public Set<BoardCell> getAdjList(){
-		return new HashSet<BoardCell>();
+		return adjMtx;
 	}
 
 	//update what room the cell is in
@@ -142,7 +158,7 @@ public class BoardCell {
 	//For testing purposes
 	@Override
 	public String toString() {
-		return "TestBoardCell [row=" + row + ", column=" + column + "] ";
+		return "BoardCell [row=" + row + ", column=" + column + "] ";
 	}
 
 	//return if cell secret passage
@@ -155,7 +171,7 @@ public class BoardCell {
 		this.secretPassage = secretPassage;
 	}
 
-	//return if cell is doorawy
+	//return if cell is doorway
 	public boolean isDoorway() {
 		return isDoorway;
 	}

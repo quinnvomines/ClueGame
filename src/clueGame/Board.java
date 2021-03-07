@@ -162,6 +162,57 @@ public class Board {
 			}
 		}
 
+		//fill out adjacency
+		for(int row = 0; row < numRows; row++) {
+			for(int col = 0; col < numCols; col++) {
+				//gets all walkways.
+				if(!(board[row][col].isRoom() || board[row][col].isUnused())) {
+					//If it is a doorway
+					if(board[row][col].isDoorway()) { //If doorway connect adjacencies between door and room center
+						if(board[row][col].getDoorDirection() == DoorDirection.UP) {
+							board[row][col].addAdjacency(roomMap.get(board[row - 1][col].getInitial()).getCenterCell());
+							roomMap.get(board[row - 1][col].getInitial()).getCenterCell().addAdjacency(board[row][col]);
+						} else if(board[row][col].getDoorDirection() == DoorDirection.DOWN) {
+							board[row][col].addAdjacency(roomMap.get(board[row + 1][col].getInitial()).getCenterCell());
+							roomMap.get(board[row + 1][col].getInitial()).getCenterCell().addAdjacency(board[row][col]);
+						} else if(board[row][col].getDoorDirection() == DoorDirection.RIGHT) {
+							board[row][col].addAdjacency(roomMap.get(board[row][col + 1].getInitial()).getCenterCell());
+							roomMap.get(board[row][col + 1].getInitial()).getCenterCell().addAdjacency(board[row][col]);
+						} else if(board[row][col].getDoorDirection() == DoorDirection.LEFT) {
+							board[row][col].addAdjacency(roomMap.get(board[row][col - 1].getInitial()).getCenterCell());
+							roomMap.get(board[row][col - 1].getInitial()).getCenterCell().addAdjacency(board[row][col]);
+						}
+					}
+					//Check and add left neighbor
+					if(row - 1 >= 0) {
+						if(!(board[row - 1][col].isRoom() || board[row - 1][col].isUnused())) {
+							board[row][col].addAdjacency(board[row - 1][col]);
+						}
+					}
+					//Check and add top neighbor
+					if(col - 1 >= 0) {
+						if(!(board[row][col - 1].isRoom() || board[row][col - 1].isUnused())) {
+							board[row][col].addAdjacency(board[row][col - 1]);
+						}
+					}
+					//Check and add right neighbor
+					if(col + 1 < numCols) {
+						if(!(board[row][col + 1].isRoom() || board[row][col + 1].isUnused())) {
+							board[row][col].addAdjacency(board[row][col + 1]);
+						}
+					}
+					//Check and add bottom neighbor
+					if(row + 1 < numRows) {
+						if(!(board[row + 1][col].isRoom() || board[row + 1][col].isUnused())) {
+							board[row][col].addAdjacency(board[row + 1][col]);
+						}
+					}
+				}
+				if(board[row][col].isSecretPassage()) {
+					roomMap.get(board[row][col].getInitial()).getCenterCell().addAdjacency(roomMap.get(board[row][col].getSecretPassage()).getCenterCell());
+				}
+			}
+		}
 	}
 
 	//figure out what locations the player can move to
@@ -176,11 +227,11 @@ public class Board {
 	//recursive function to find the locations the player can move to
 	public void findAllTargets(BoardCell thisCell,int numSteps) {
 		for (BoardCell c : thisCell.getAdjList()) {
-			if(!(visitedList.contains(c)) && !(c.getOccupied()))
+			if(!(visitedList.contains(c)) && (!(c.getOccupied()) || c.isRoomCenter()))
 			{
 
 				visitedList.add(c);
-				if(numSteps == 1 || c.isRoom())
+				if((numSteps == 1 || c.isRoom()))
 				{
 					targetsList.add(c);
 				}
@@ -193,6 +244,7 @@ public class Board {
 
 		}
 	}
+
 
 	//returns room given initial
 	public Room getRoom(char roomInitial) {
@@ -221,15 +273,15 @@ public class Board {
 	public int getNumRows() {
 		return numRows;
 	}
-	
-	//stub; get adjacent list
+
+	//get adjacent list
 	public Set<BoardCell> getAdjList(int i, int j) {
-		return new HashSet<BoardCell>();
+		return board[i][j].getAdjList();
 	}
-	
-	//stub; get targets
+
+	//get targets
 	public Set<BoardCell> getTargets() {
-		return new HashSet<BoardCell>();
+		return targetsList;
 	}
 
 
