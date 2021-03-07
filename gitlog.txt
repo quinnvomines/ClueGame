@@ -2,7 +2,7 @@ commit 1d51e6b65a76364468faa3981f03fd206e31eeb0 (HEAD -> master)
 Author: LucLafave <luclafave@mymail.mines.edu>
 Date:   Fri Mar 5 19:04:26 2021 -0700
 
-    Added BoardAdjTargetTest.java and BoardAdjTargetTest.java
+    Added BoardAdjTargetTest.java and BoardAdjTargetTest306.java
 
 commit 52c0ca3e5b3babc66cd7e125aadf830789bc752b (HEAD -> master)
 Author: Quinn <quinnvo3004724@gmail.com>

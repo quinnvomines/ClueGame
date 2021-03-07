@@ -166,53 +166,79 @@ public class Board {
 		for(int row = 0; row < numRows; row++) {
 			for(int col = 0; col < numCols; col++) {
 				//gets all walkways.
-				if(!(board[row][col].isRoom() || board[row][col].isUnused())) {
+				BoardCell currLoc = board[row][col];
+				if(!(currLoc.isRoom() || currLoc.isUnused())) {
 					//If it is a doorway
-					if(board[row][col].isDoorway()) { //If doorway connect adjacencies between door and room center
-						if(board[row][col].getDoorDirection() == DoorDirection.UP) {
-							board[row][col].addAdjacency(roomMap.get(board[row - 1][col].getInitial()).getCenterCell());
-							roomMap.get(board[row - 1][col].getInitial()).getCenterCell().addAdjacency(board[row][col]);
-						} else if(board[row][col].getDoorDirection() == DoorDirection.DOWN) {
-							board[row][col].addAdjacency(roomMap.get(board[row + 1][col].getInitial()).getCenterCell());
-							roomMap.get(board[row + 1][col].getInitial()).getCenterCell().addAdjacency(board[row][col]);
-						} else if(board[row][col].getDoorDirection() == DoorDirection.RIGHT) {
-							board[row][col].addAdjacency(roomMap.get(board[row][col + 1].getInitial()).getCenterCell());
-							roomMap.get(board[row][col + 1].getInitial()).getCenterCell().addAdjacency(board[row][col]);
-						} else if(board[row][col].getDoorDirection() == DoorDirection.LEFT) {
-							board[row][col].addAdjacency(roomMap.get(board[row][col - 1].getInitial()).getCenterCell());
-							roomMap.get(board[row][col - 1].getInitial()).getCenterCell().addAdjacency(board[row][col]);
-						}
-					}
-					//Check and add left neighbor
-					if(row - 1 >= 0) {
-						if(!(board[row - 1][col].isRoom() || board[row - 1][col].isUnused())) {
-							board[row][col].addAdjacency(board[row - 1][col]);
+					if(currLoc.isDoorway()) { //If doorway connect adjacencies between door and room center
+						BoardCell cellTop = board[row - 1][col];
+						BoardCell cellLeft = board[row][col - 1];
+						BoardCell cellBottom = board[row + 1][col];
+						BoardCell cellRight = board[row][col + 1];
+						if(currLoc.getDoorDirection() == DoorDirection.UP) {
+							char upChar = cellTop.getInitial();
+							currLoc.addAdjacency(getCenter(upChar));
+							getCenter(upChar).addAdjacency(currLoc);
+							
+						} else if(currLoc.getDoorDirection() == DoorDirection.DOWN) {
+							
+							char downChar = cellBottom.getInitial();
+							currLoc.addAdjacency(getCenter(downChar));
+							getCenter(downChar).addAdjacency(currLoc);
+							
+						} else if(currLoc.getDoorDirection() == DoorDirection.RIGHT) {
+							
+							char rightChar = cellRight.getInitial();
+							currLoc.addAdjacency(getCenter(rightChar));
+							getCenter(rightChar).addAdjacency(currLoc);
+							
+						} else if(currLoc.getDoorDirection() == DoorDirection.LEFT) {
+							
+							char leftChar = cellLeft.getInitial();
+							currLoc.addAdjacency(getCenter(leftChar));
+							getCenter(leftChar).addAdjacency(currLoc);
+							
 						}
 					}
 					//Check and add top neighbor
+					if(row - 1 >= 0) {
+						BoardCell cellTop = board[row - 1][col];
+						if(!(cellTop.isRoom() || cellTop.isUnused())) {
+							currLoc.addAdjacency(cellTop);
+						}
+					}
+					//Check and add left neighbor
 					if(col - 1 >= 0) {
-						if(!(board[row][col - 1].isRoom() || board[row][col - 1].isUnused())) {
-							board[row][col].addAdjacency(board[row][col - 1]);
+						BoardCell cellLeft = board[row][col - 1];
+						if(!(cellLeft.isRoom() || cellLeft.isUnused())) {
+							currLoc.addAdjacency(cellLeft);
 						}
 					}
 					//Check and add right neighbor
 					if(col + 1 < numCols) {
-						if(!(board[row][col + 1].isRoom() || board[row][col + 1].isUnused())) {
-							board[row][col].addAdjacency(board[row][col + 1]);
+						BoardCell cellRight = board[row][col + 1];
+						if(!(cellRight.isRoom() || cellRight.isUnused())) {
+							currLoc.addAdjacency(cellRight);
 						}
 					}
 					//Check and add bottom neighbor
 					if(row + 1 < numRows) {
-						if(!(board[row + 1][col].isRoom() || board[row + 1][col].isUnused())) {
-							board[row][col].addAdjacency(board[row + 1][col]);
+						BoardCell cellBottom = board[row + 1][col];
+						if(!(cellBottom.isRoom() || cellBottom.isUnused())) {
+							currLoc.addAdjacency(cellBottom);
 						}
 					}
 				}
-				if(board[row][col].isSecretPassage()) {
-					roomMap.get(board[row][col].getInitial()).getCenterCell().addAdjacency(roomMap.get(board[row][col].getSecretPassage()).getCenterCell());
+				//Add secret passage adjacency
+				if(currLoc.isSecretPassage()) {
+					BoardCell secretPassageCenter = getCenter(currLoc.getSecretPassage());
+					getCenter(currLoc.getInitial()).addAdjacency(secretPassageCenter);
 				}
 			}
 		}
+	}
+	
+	private BoardCell getCenter(char initial) {
+		return roomMap.get(initial).getCenterCell();
 	}
 
 	//figure out what locations the player can move to
