@@ -92,7 +92,6 @@ public class BoardCell {
 			roomLabel = true;
 			inRoom = true;
 			break;
-		/*
 		default:
 			roomCenter = false;
 			roomLabel = false;
@@ -101,7 +100,7 @@ public class BoardCell {
 			isSecretPassage = true;
 			secretPassage = cellValue.charAt(1);
 			break;
-			*/
+		
 		}
 		
 		occupied = false;

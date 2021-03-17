@@ -1,4 +1,10 @@
-commit 9319b304716297230cbf151912962605e1846ae1 (HEAD -> master)
+commit 7e7ee8ad242542b15d3b2285743323d9c8709f25 (HEAD -> master)
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Tue Mar 16 18:12:36 2021 -0600
+
+    Refactored to replace if/else with easier to read switch statement
+
+commit 9319b304716297230cbf151912962605e1846ae1 
 Author: Quinn <quinnvo3004724@gmail.com>
 Date:   Tue Mar 16 18:09:53 2021 -0600
 
