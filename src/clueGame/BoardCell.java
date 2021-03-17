@@ -50,50 +50,58 @@ public class BoardCell {
 			
 			return;
 		}
-
-		//Set instance variables accordingly if more than 1 characters
-		if(cellValue.charAt(1) == '^') { //Door points up
+		/*
+		switch(cellValue.charAt(1)) {
+		case '^':
 			doorDirection = DoorDirection.UP;
 			roomCenter = false;
 			roomLabel = false;
 			inRoom = false;
 			isDoorway = true;
-		} else if(cellValue.charAt(1) == '<') { //Door points left
+			break;
+		case '<':
 			doorDirection = DoorDirection.LEFT;
 			roomCenter = false;
 			roomLabel = false;
 			inRoom = false;
 			isDoorway = true;
-		} else if(cellValue.charAt(1) == '>') { //Door points right
+			break;
+		case '>':
 			doorDirection = DoorDirection.RIGHT;
 			roomCenter = false;
 			roomLabel = false;
 			inRoom = false;
 			isDoorway = true;
-		} else if(cellValue.charAt(1) == 'v') { //Door points down
+			break;
+		case 'v':
 			doorDirection = DoorDirection.DOWN;
 			roomCenter = false;
 			roomLabel = false;
 			inRoom = false;
 			isDoorway = true;
-		} else if(cellValue.charAt(1) == '*') { //Room center
+			break;
+		case '*':
 			doorDirection = DoorDirection.NONE;
 			roomCenter = true;
 			roomLabel = false;
 			inRoom = true;
-		} else if(cellValue.charAt(1) == '#') { //Room label
+			break;
+		case '#':
 			doorDirection = DoorDirection.NONE;
 			roomCenter = false;
 			roomLabel = true;
 			inRoom = true;
-		} else {
+			break;
+		default:
 			roomCenter = false;
 			roomLabel = false;
 			inRoom = true;
 			doorDirection = DoorDirection.NONE;
 			isSecretPassage = true;
 			secretPassage = cellValue.charAt(1);
+			break;
 		}
+		*/
 		occupied = false;
 		unused = false;
 

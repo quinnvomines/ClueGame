@@ -1,10 +1,22 @@
-commit 1d51e6b65a76364468faa3981f03fd206e31eeb0 (HEAD -> master)
+commit ac26f474e8d263193da6130d2f9dc43f8c313935 (HEAD -> master)
+Author: LucLafave <luclafave@mymail.mines.edu>
+Date:   Sat Mar 6 19:59:04 2021 -0700
+
+    Refactored
+
+commit 9b329af00a0604916c2b386e6f535f721a8673e5
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Sat Mar 6 18:21:33 2021 -0700
+
+    Got BoardAdjTargetTest.java working
+
+commit 1d51e6b65a76364468faa3981f03fd206e31eeb0 
 Author: LucLafave <luclafave@mymail.mines.edu>
 Date:   Fri Mar 5 19:04:26 2021 -0700
 
     Added BoardAdjTargetTest.java and BoardAdjTargetTest306.java
 
-commit 52c0ca3e5b3babc66cd7e125aadf830789bc752b (HEAD -> master)
+commit 52c0ca3e5b3babc66cd7e125aadf830789bc752b 
 Author: Quinn <quinnvo3004724@gmail.com>
 Date:   Fri Mar 5 12:50:50 2021 -0700
 
@@ -16,7 +28,7 @@ Date:   Fri Mar 5 10:05:55 2021 -0700
 
     Got FileInit and ExceptionTests working
 
-commit 94256396550da25c06e9c02374cc78876867fd2e (HEAD -> master)
+commit 94256396550da25c06e9c02374cc78876867fd2e 
 Author: Quinn <quinnvo3004724@gmail.com>
 Date:   Sun Feb 28 16:48:48 2021 -0700
 

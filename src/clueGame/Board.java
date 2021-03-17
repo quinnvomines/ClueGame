@@ -63,8 +63,8 @@ public class Board {
 
 	//stub; set config files
 	public void setConfigFiles(String csv, String txt) {
-		layoutConfigFile = csv;
-		setupConfigFile = txt;
+		layoutConfigFile = "data/" + csv;
+		setupConfigFile = "data/" + txt;
 	}
 
 
@@ -171,28 +171,49 @@ public class Board {
 					//If it is a doorway
 					if(currLoc.isDoorway()) { //If doorway connect adjacencies between door and room center
 						BoardCell cellTop = board[row - 1][col];
-						BoardCell cellLeft = board[row][col - 1];
 						BoardCell cellBottom = board[row + 1][col];
 						BoardCell cellRight = board[row][col + 1];
+						BoardCell cellLeft = board[row][col - 1];
 						if(currLoc.getDoorDirection() == DoorDirection.UP) {
+							/*
+							if(row - 1 < 0) {
+								throw new BadConfigFormatException("Doorway points outside of map");
+							}
+							*/
+							//BoardCell cellTop = board[row - 1][col];
 							char upChar = cellTop.getInitial();
 							currLoc.addAdjacency(getCenter(upChar));
 							getCenter(upChar).addAdjacency(currLoc);
 							
 						} else if(currLoc.getDoorDirection() == DoorDirection.DOWN) {
-							
+							/*
+							if(row + 1 >= numRows) {
+								throw new BadConfigFormatException("Doorway points outside of map");
+							}
+							*/
+							//BoardCell cellBottom = board[row + 1][col];
 							char downChar = cellBottom.getInitial();
 							currLoc.addAdjacency(getCenter(downChar));
 							getCenter(downChar).addAdjacency(currLoc);
 							
 						} else if(currLoc.getDoorDirection() == DoorDirection.RIGHT) {
-							
+							/*
+							if(col + 1 >= numCols) {
+								throw new BadConfigFormatException("Doorway points outside of map");
+							}
+							*/
+							//BoardCell cellRight = board[row][col + 1];
 							char rightChar = cellRight.getInitial();
 							currLoc.addAdjacency(getCenter(rightChar));
 							getCenter(rightChar).addAdjacency(currLoc);
 							
 						} else if(currLoc.getDoorDirection() == DoorDirection.LEFT) {
-							
+							/*
+							if(col - 1 < 0) {
+								throw new BadConfigFormatException("Doorway points outside of map");
+							}
+							*/
+							//BoardCell cellLeft = board[row][col - 1];
 							char leftChar = cellLeft.getInitial();
 							currLoc.addAdjacency(getCenter(leftChar));
 							getCenter(leftChar).addAdjacency(currLoc);
