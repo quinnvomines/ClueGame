@@ -1,4 +1,28 @@
-commit ac26f474e8d263193da6130d2f9dc43f8c313935 (HEAD -> master)
+commit 9319b304716297230cbf151912962605e1846ae1 (HEAD -> master)
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Tue Mar 16 18:09:53 2021 -0600
+
+    Refactored to add comments on Exception handling
+
+commit 82a23f91653d6719117369b2d8e98bbfa40a7829
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Tue Mar 16 18:07:53 2021 -0600
+
+    Refactored to add Exception handling for doorways pointing outside the Board
+
+commit 6aa51e99a737575886d8b92ac00bb3b998a1b309
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Tue Mar 16 18:05:17 2021 -0600
+
+    Refactoring how door directions are handled
+
+commit 54d7c5432d458534a2a1d93c78b3fa1d397c3890
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Tue Mar 16 18:02:39 2021 -0600
+
+    Refactoring how setup and layout file names are read in
+
+commit ac26f474e8d263193da6130d2f9dc43f8c313935 
 Author: LucLafave <luclafave@mymail.mines.edu>
 Date:   Sat Mar 6 19:59:04 2021 -0700
 

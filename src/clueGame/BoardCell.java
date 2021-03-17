@@ -50,7 +50,7 @@ public class BoardCell {
 			
 			return;
 		}
-		/*
+		
 		switch(cellValue.charAt(1)) {
 		case '^':
 			doorDirection = DoorDirection.UP;
@@ -92,6 +92,7 @@ public class BoardCell {
 			roomLabel = true;
 			inRoom = true;
 			break;
+		/*
 		default:
 			roomCenter = false;
 			roomLabel = false;
@@ -100,8 +101,9 @@ public class BoardCell {
 			isSecretPassage = true;
 			secretPassage = cellValue.charAt(1);
 			break;
+			*/
 		}
-		*/
+		
 		occupied = false;
 		unused = false;
 
