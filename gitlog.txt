@@ -1,3 +1,9 @@
+commit bd1c7f01db310f37e11d2c4d6d6bca203191f227 (HEAD -> master)
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Tue Mar 16 18:13:31 2021 -0600
+
+    Refactored to add default case to switch statement
+
 commit 7e7ee8ad242542b15d3b2285743323d9c8709f25 (HEAD -> master)
 Author: Quinn <quinnvo3004724@gmail.com>
 Date:   Tue Mar 16 18:12:36 2021 -0600

@@ -80,19 +80,19 @@ public class BoardCell {
 			inRoom = false;
 			isDoorway = true;
 			break;
-		case '*':
+		case '*': //Room Center
 			doorDirection = DoorDirection.NONE;
 			roomCenter = true;
 			roomLabel = false;
 			inRoom = true;
 			break;
-		case '#':
+		case '#'://Room Label
 			doorDirection = DoorDirection.NONE;
 			roomCenter = false;
 			roomLabel = true;
 			inRoom = true;
 			break;
-		default:
+		default://If secret passage
 			roomCenter = false;
 			roomLabel = false;
 			inRoom = true;
@@ -103,7 +103,7 @@ public class BoardCell {
 		
 		}
 		
-		occupied = false;
+		occupied = false; //Set all rooms that are longer than 1 to not be occupied or unused
 		unused = false;
 
 	}
