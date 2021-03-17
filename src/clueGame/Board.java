@@ -63,6 +63,7 @@ public class Board {
 
 	//stub; set config files
 	public void setConfigFiles(String csv, String txt) {
+		//Get data from the data folder
 		layoutConfigFile = "data/" + csv;
 		setupConfigFile = "data/" + txt;
 	}
