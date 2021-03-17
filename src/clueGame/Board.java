@@ -172,7 +172,7 @@ public class Board {
 					if(currLoc.isDoorway()) { //If doorway connect adjacencies between door and room center
 						
 						if(currLoc.getDoorDirection() == DoorDirection.UP) {
-							
+							//Check if doorway points out of the board
 							if(row - 1 < 0) {
 								throw new BadConfigFormatException("Doorway points outside of map");
 							}
@@ -183,7 +183,7 @@ public class Board {
 							getCenter(upChar).addAdjacency(currLoc);
 							
 						} else if(currLoc.getDoorDirection() == DoorDirection.DOWN) {
-							
+							//Check if doorway points out of the board
 							if(row + 1 >= numRows) {
 								throw new BadConfigFormatException("Doorway points outside of map");
 							}
@@ -194,7 +194,7 @@ public class Board {
 							getCenter(downChar).addAdjacency(currLoc);
 							
 						} else if(currLoc.getDoorDirection() == DoorDirection.RIGHT) {
-							
+							//Check if doorway points out of the board
 							if(col + 1 >= numCols) {
 								throw new BadConfigFormatException("Doorway points outside of map");
 							}
@@ -205,7 +205,7 @@ public class Board {
 							getCenter(rightChar).addAdjacency(currLoc);
 							
 						} else if(currLoc.getDoorDirection() == DoorDirection.LEFT) {
-							
+							//Check if doorway points out of the board
 							if(col - 1 < 0) {
 								throw new BadConfigFormatException("Doorway points outside of map");
 							}
