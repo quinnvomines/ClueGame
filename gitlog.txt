@@ -1,5 +1,11 @@
-commit 7b7184edd3dfffb5c8c43747196d6fdb7169913c (HEAD -> master)
+commit 2754d5c5b329ff97a8eea9f734295b84768ae944 (HEAD -> master)
 Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Tue Mar 16 18:17:56 2021 -0600
+
+    Refactored to fix bug involving not looking at correct directory in Exception testing
+
+commit 7b7184edd3dfffb5c8c43747196d6fdb7169913c 
+Author: LucLafave <luclafave@mymail.mines.edu>
 Date:   Tue Mar 16 18:15:22 2021 -0600
 
     Refactored to add comments to case statement
@@ -11,7 +17,7 @@ Date:   Tue Mar 16 18:13:31 2021 -0600
     Refactored to add default case to switch statement
 
 commit 7e7ee8ad242542b15d3b2285743323d9c8709f25
-Author: Quinn <quinnvo3004724@gmail.com>
+Author: LucLafave <luclafave@mymail.mines.edu>
 Date:   Tue Mar 16 18:12:36 2021 -0600
 
     Refactored to replace if/else with easier to read switch statement
@@ -23,7 +29,7 @@ Date:   Tue Mar 16 18:09:53 2021 -0600
     Refactored to add comments on Exception handling
 
 commit 82a23f91653d6719117369b2d8e98bbfa40a7829
-Author: Quinn <quinnvo3004724@gmail.com>
+Author: LucLafave <luclafave@mymail.mines.edu>
 Date:   Tue Mar 16 18:07:53 2021 -0600
 
     Refactored to add Exception handling for doorways pointing outside the Board

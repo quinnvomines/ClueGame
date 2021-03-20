@@ -18,6 +18,9 @@ public class Board {
 
 	private BoardCell[][] board;
 
+	private ArrayList<Card> deck;
+	private ArrayList<Player> players;
+
 	private String layoutConfigFile;
 	private String setupConfigFile;
 
@@ -290,7 +293,10 @@ public class Board {
 		}
 	}
 
-
+	public void deal() {
+		
+	}
+	
 	//returns room given initial
 	public Room getRoom(char roomInitial) {
 		return roomMap.get(roomInitial);
@@ -328,6 +334,17 @@ public class Board {
 	public Set<BoardCell> getTargets() {
 		return targetsList;
 	}
+
+	//STUB; Get player list
+	public ArrayList<Player> getPlayers() {
+		return new ArrayList<Player>();
+	}
+	
+	//STUB; Get deck
+	public ArrayList<Card> getDeck() {
+		return new ArrayList<Card>();
+	}
+
 
 
 }

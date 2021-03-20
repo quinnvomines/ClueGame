@@ -11,3 +11,17 @@ Room, Visitor Center, O
 // other spaces on board
 Space, Unused, X
 Space, Walkway, W
+//Players
+Miss Scarlett, 1, 7, Red
+Colonel Mustard, 1, 15, Yellow
+Mrs White, 13, 0, White
+Reverend Green, 26, 1, Green
+Mrs Peacock, 16, 23, Blue
+Professor Plum, 29, 14, Magenta
+//Weapons
+Candlestick
+Knife
+Wrench
+Leadpipe
+Revolver
+Rope
