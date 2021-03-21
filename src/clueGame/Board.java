@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -77,6 +78,9 @@ public class Board {
 
 		roomMap = new HashMap<Character, Room>(); //Initialize map
 
+		deck = new ArrayList<Card>();
+		players = new ArrayList<Player>();
+		
 		//Variables to prepare reading in from Setup file
 		FileReader file = new FileReader(setupConfigFile); 
 		Scanner scan = new Scanner(file);
@@ -99,12 +103,29 @@ public class Board {
 
 			if(input.get(i)[0].equals("Room") || input.get(i)[0].equals("Space"))
 			{
+				if(input.get(i)[0].equals("Room")) {
+					Card tempCard = new Card(input.get(i)[1], CardType.ROOM);
+					deck.add(tempCard);
+				}
 				//Make a new room and add to map with the corresponding initial
 				Room room = new Room(input.get(i)[1]);
 				char charMap = (input.get(i)[2]).charAt(0);
 				roomMap.put(charMap, room);
-			}
-			else {
+			} else if (input.get(i)[0].equals("Player")) {
+				Card tempCard = new Card(input.get(i)[1], CardType.PERSON);
+				deck.add(tempCard);
+				
+				Player tempPlayer;
+				if(input.get(i)[1].equals("Miss Scarlett")) {
+					tempPlayer = new HumanPlayer(input.get(i)[1], input.get(i)[4], Integer.parseInt(input.get(i)[2]), Integer.parseInt(input.get(i)[3]));
+				} else {
+					tempPlayer = new ComputerPlayer(input.get(i)[1], input.get(i)[4], Integer.parseInt(input.get(i)[2]), Integer.parseInt(input.get(i)[3]));
+				}
+				players.add(tempPlayer);
+			} else if (input.get(i)[0].equals("Weapon")) {
+				Card tempCard = new Card(input.get(i)[1], CardType.WEAPON);
+				deck.add(tempCard);
+			} else {
 				//Throw exception if it is not a Room or a Space
 				throw new BadConfigFormatException("Bad format in setup file");
 			}
@@ -294,6 +315,56 @@ public class Board {
 	}
 
 	public void deal() {
+		//Split the deck into different ArrayLists
+		ArrayList<Card> playersLeft = new ArrayList<Card>();
+		ArrayList<Card> weaponsLeft = new ArrayList<Card>();
+		ArrayList<Card> roomsLeft = new ArrayList<Card>();
+		for(int i = 0; i < deck.size(); i++) {
+			if(deck.get(i).getType() == CardType.PERSON) {
+				playersLeft.add(deck.get(i));
+			} else if(deck.get(i).getType() == CardType.ROOM) {
+				roomsLeft.add(deck.get(i));
+			} else if(deck.get(i).getType() == CardType.WEAPON) {
+				weaponsLeft.add(deck.get(i));
+			}
+		}
+		
+		//Get random position from each 
+		Random r = new Random();
+		int indexPlayerSol = r.nextInt(playersLeft.size());
+		int indexRoomSol = r.nextInt(roomsLeft.size());
+		int indexWeaponSol = r.nextInt(weaponsLeft.size());
+		
+		//Add to solution
+		Solution sol = new Solution(playersLeft.get(indexPlayerSol), roomsLeft.get(indexRoomSol), 
+					weaponsLeft.get(indexWeaponSol));
+		//Remove from options
+		playersLeft.remove(indexPlayerSol);
+		roomsLeft.remove(indexRoomSol);
+		weaponsLeft.remove(indexWeaponSol);
+		
+		//Recombine the lists 
+		ArrayList<Card> dealDeck = new ArrayList<Card>();
+		dealDeck.addAll(playersLeft);
+		dealDeck.addAll(roomsLeft);
+		dealDeck.addAll(weaponsLeft);
+		
+		//While deal deck is not empty, hand it out to players
+		int playerNum = 0;
+		while(!dealDeck.isEmpty()) {
+			int randomSpot = r.nextInt(dealDeck.size()); //Get random card from deal deck
+			Card tempCard = dealDeck.get(randomSpot);
+			dealDeck.remove(randomSpot);
+			players.get(playerNum).updateHand(tempCard); //Add to player hand
+			
+			if(playerNum == players.size() - 1) {
+				playerNum = 0;
+			} else {
+				playerNum++;
+			}
+		}
+		
+		
 		
 	}
 	
@@ -335,14 +406,14 @@ public class Board {
 		return targetsList;
 	}
 
-	//STUB; Get player list
+	//Get player list
 	public ArrayList<Player> getPlayers() {
-		return new ArrayList<Player>();
+		return players;
 	}
 	
-	//STUB; Get deck
+	//Get deck
 	public ArrayList<Card> getDeck() {
-		return new ArrayList<Card>();
+		return deck;
 	}
 
 

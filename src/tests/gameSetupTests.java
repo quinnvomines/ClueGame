@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 
 import clueGame.Board;
 import clueGame.Card;
+import clueGame.ComputerPlayer;
+import clueGame.HumanPlayer;
 import clueGame.Player;
 import experiment.TestBoard;
 
@@ -32,12 +34,6 @@ public class gameSetupTests {
 
 	@Test
 	//Load people and weapons from ClueSetup.txt and insure the data was loaded properly
-	//1,7
-	//1,15
-	//13,0
-	//26,1
-	//16,23
-	//29,14
 	public void testLoad() {
 		ArrayList<Player> players = board.getPlayers();
 		assertEquals(players.size(), 6);
@@ -63,6 +59,25 @@ public class gameSetupTests {
 
 	//Create Player class with human and computer child classes.   
 	//Use people data to instantiate 6 players (1 human and 5 computer) 
+	public void testPlayers() {
+		ArrayList<Player> players = board.getPlayers();
+		int numHuman = 0;
+		int numComputer = 0;
+		
+		//Loop through players
+		for(int i = 0; i < players.size(); i++) {
+			if(players.get(i) instanceof HumanPlayer) { //Checks if human player
+				numHuman++;
+			} else if(players.get(i) instanceof ComputerPlayer) { //Checks if ComputerPlayer
+				numComputer++;
+			}
+		}
+		
+		if(numHuman != 1 && numComputer != 5) {
+			assert(false); //Assert false if there isn't 1 human, 5 computers
+		}
+		assert(true);//Otherwise assert true
+	}
 
 	@Test
 	//Create complete deck of cards (weapons, people and rooms)
@@ -79,23 +94,26 @@ public class gameSetupTests {
 	//Deal cards to the Answer and the players 
 	//(all cards dealt, players have roughly same # of cards, no card dealt twice)
 	public void testDealCards() {
-		//
+		
 		ArrayList<Player> players = board.getPlayers();
 		if(players.size() == 0) {
 			assert(false);
 		} else {
 			//Test that no card is dealt twice
-			Card testCard = players.get(0).getHand().get(0);
-			for(int i = 0; i < players.size(); i++) {
+			board.deal();
+			Card testCard = players.get(0).getHand().get(0); //First card in player's hand
+			for(int i = 1; i < players.size(); i++) {
 				for(int j = 0; j < players.get(i).getHand().size(); j++) {
+					//Check other players hands
 					if(testCard.equals(players.get(i).getHand().get(j)) || players.size() == 0) {
 						assert(false);
 					}
 				}
 			}
-			assert(true);
+			//Test players have same amount of cards
 			assertEquals(players.get(0).getHand().size() , 3);
 			assertEquals(players.get(2).getHand().size(), players.get(0).getHand().size());
+			assert(true);
 		}
 		
 	}
