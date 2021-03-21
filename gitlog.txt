@@ -1,6 +1,16 @@
+commit b7d16e0c713b7723bb98f26a1ff9d28bb445108d (HEAD -> master)
+Author: LucLafave <luclafave@mymail.mines.edu>
+Date:   Sat Mar 20 21:05:20 2021 -0600
 
+    Got all tests in gameSetuptests.java to work
 
-commit 2754d5c5b329ff97a8eea9f734295b84768ae944 (HEAD -> master)
+commit 845f5489f49c882239301d0600e51f7ca1be5bee
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Sat Mar 20 17:51:32 2021 -0600
+
+    Got all tests in gameSetupTests.java to fail
+
+commit 2754d5c5b329ff97a8eea9f734295b84768ae944
 Author: Quinn <quinnvo3004724@gmail.com>
 Date:   Tue Mar 16 18:17:56 2021 -0600
 

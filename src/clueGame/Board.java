@@ -97,34 +97,41 @@ public class Board {
 				input.add(row); //Add row of data to ArrayList
 			}
 		}
-
+		
+		boolean firstPlayer = true;
 		for(int i = 0; i < input.size(); i++)
 		{
-
+	
+			String name = input.get(i)[1];
 			if(input.get(i)[0].equals("Room") || input.get(i)[0].equals("Space"))
 			{
 				if(input.get(i)[0].equals("Room")) {
-					Card tempCard = new Card(input.get(i)[1], CardType.ROOM);
-					deck.add(tempCard);
+					Card tempCard = new Card(name, CardType.ROOM); 
+					deck.add(tempCard); //Add Room to the deck of Cards
 				}
 				//Make a new room and add to map with the corresponding initial
-				Room room = new Room(input.get(i)[1]);
+				Room room = new Room(name);
 				char charMap = (input.get(i)[2]).charAt(0);
 				roomMap.put(charMap, room);
 			} else if (input.get(i)[0].equals("Player")) {
-				Card tempCard = new Card(input.get(i)[1], CardType.PERSON);
-				deck.add(tempCard);
+				Card tempCard = new Card(name, CardType.PERSON); 
+				deck.add(tempCard); //Add Player to deck of Cards
 				
+				//Prepare fields for Player constructor
 				Player tempPlayer;
-				if(input.get(i)[1].equals("Miss Scarlett")) {
-					tempPlayer = new HumanPlayer(input.get(i)[1], input.get(i)[4], Integer.parseInt(input.get(i)[2]), Integer.parseInt(input.get(i)[3]));
+				String color = input.get(i)[4];
+				String rowPlayer = input.get(i)[2];
+				String colPlayer = input.get(i)[3];
+				if(firstPlayer) {
+					tempPlayer = new HumanPlayer(name, color, Integer.parseInt(rowPlayer), Integer.parseInt(colPlayer));
+					firstPlayer = false;
 				} else {
-					tempPlayer = new ComputerPlayer(input.get(i)[1], input.get(i)[4], Integer.parseInt(input.get(i)[2]), Integer.parseInt(input.get(i)[3]));
+					tempPlayer = new ComputerPlayer(name, color, Integer.parseInt(rowPlayer), Integer.parseInt(colPlayer));
 				}
-				players.add(tempPlayer);
+				players.add(tempPlayer); //Add Player to deck of Cards
 			} else if (input.get(i)[0].equals("Weapon")) {
-				Card tempCard = new Card(input.get(i)[1], CardType.WEAPON);
-				deck.add(tempCard);
+				Card tempCard = new Card(name, CardType.WEAPON);
+				deck.add(tempCard); //Add Weapon to deck of Cards
 			} else {
 				//Throw exception if it is not a Room or a Space
 				throw new BadConfigFormatException("Bad format in setup file");
