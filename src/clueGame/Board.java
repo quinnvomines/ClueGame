@@ -19,11 +19,16 @@ public class Board {
 
 	private BoardCell[][] board;
 
+	private Solution solution;
+
+
 	private ArrayList<Card> deck;
 	private ArrayList<Player> players;
 
 	private String layoutConfigFile;
 	private String setupConfigFile;
+
+	private ArrayList<String[]> playersPre = new ArrayList<String[]>();
 
 	//move targets list
 	private Set<BoardCell> targetsList;
@@ -53,6 +58,7 @@ public class Board {
 
 			loadSetupConfig(); //Load the setup file (txt)
 			loadLayoutConfig(); //Load the layout file (csv)
+			addPlayers();
 
 		} catch (FileNotFoundException e) {
 
@@ -80,7 +86,7 @@ public class Board {
 
 		deck = new ArrayList<Card>();
 		players = new ArrayList<Player>();
-		
+
 		//Variables to prepare reading in from Setup file
 		FileReader file = new FileReader(setupConfigFile); 
 		Scanner scan = new Scanner(file);
@@ -97,11 +103,11 @@ public class Board {
 				input.add(row); //Add row of data to ArrayList
 			}
 		}
-		
+
 		boolean firstPlayer = true;
 		for(int i = 0; i < input.size(); i++)
 		{
-	
+
 			String name = input.get(i)[1];
 			if(input.get(i)[0].equals("Room") || input.get(i)[0].equals("Space"))
 			{
@@ -116,19 +122,26 @@ public class Board {
 			} else if (input.get(i)[0].equals("Player")) {
 				Card tempCard = new Card(name, CardType.PERSON); 
 				deck.add(tempCard); //Add Player to deck of Cards
-				
+
+				/*
 				//Prepare fields for Player constructor
 				Player tempPlayer;
 				String color = input.get(i)[4];
 				String rowPlayer = input.get(i)[2];
 				String colPlayer = input.get(i)[3];
+
 				if(firstPlayer) {
-					tempPlayer = new HumanPlayer(name, color, Integer.parseInt(rowPlayer), Integer.parseInt(colPlayer));
+					tempPlayer = new HumanPlayer(name, color, Integer.parseInt(rowPlayer), Integer.parseInt(colPlayer), this);
 					firstPlayer = false;
 				} else {
-					tempPlayer = new ComputerPlayer(name, color, Integer.parseInt(rowPlayer), Integer.parseInt(colPlayer));
+					tempPlayer = new ComputerPlayer(name, color, Integer.parseInt(rowPlayer), Integer.parseInt(colPlayer), this);
 				}
+
 				players.add(tempPlayer); //Add Player to deck of Cards
+				 */
+
+				playersPre.add(input.get(i));
+
 			} else if (input.get(i)[0].equals("Weapon")) {
 				Card tempCard = new Card(name, CardType.WEAPON);
 				deck.add(tempCard); //Add Weapon to deck of Cards
@@ -202,51 +215,51 @@ public class Board {
 				if(!(currLoc.isRoom() || currLoc.isUnused())) {
 					//If it is a doorway
 					if(currLoc.isDoorway()) { //If doorway connect adjacencies between door and room center
-						
+
 						if(currLoc.getDoorDirection() == DoorDirection.UP) {
 							//Check if doorway points out of the board
 							if(row - 1 < 0) {
 								throw new BadConfigFormatException("Doorway points outside of map");
 							}
-							
+
 							BoardCell cellTop = board[row - 1][col];
 							char upChar = cellTop.getInitial();
 							currLoc.addAdjacency(getCenter(upChar));
 							getCenter(upChar).addAdjacency(currLoc);
-							
+
 						} else if(currLoc.getDoorDirection() == DoorDirection.DOWN) {
 							//Check if doorway points out of the board
 							if(row + 1 >= numRows) {
 								throw new BadConfigFormatException("Doorway points outside of map");
 							}
-							
+
 							BoardCell cellBottom = board[row + 1][col];
 							char downChar = cellBottom.getInitial();
 							currLoc.addAdjacency(getCenter(downChar));
 							getCenter(downChar).addAdjacency(currLoc);
-							
+
 						} else if(currLoc.getDoorDirection() == DoorDirection.RIGHT) {
 							//Check if doorway points out of the board
 							if(col + 1 >= numCols) {
 								throw new BadConfigFormatException("Doorway points outside of map");
 							}
-							
+
 							BoardCell cellRight = board[row][col + 1];
 							char rightChar = cellRight.getInitial();
 							currLoc.addAdjacency(getCenter(rightChar));
 							getCenter(rightChar).addAdjacency(currLoc);
-							
+
 						} else if(currLoc.getDoorDirection() == DoorDirection.LEFT) {
 							//Check if doorway points out of the board
 							if(col - 1 < 0) {
 								throw new BadConfigFormatException("Doorway points outside of map");
 							}
-							
+
 							BoardCell cellLeft = board[row][col - 1];
 							char leftChar = cellLeft.getInitial();
 							currLoc.addAdjacency(getCenter(leftChar));
 							getCenter(leftChar).addAdjacency(currLoc);
-							
+
 						}
 					}
 					//Check and add top neighbor
@@ -285,8 +298,29 @@ public class Board {
 				}
 			}
 		}
+
 	}
-	
+
+	private void addPlayers() {
+		//Add players 
+		System.out.println(playersPre.size());
+		for(int i = 0; i < playersPre.size(); i++) {
+			Player tempPlayer;
+			String name = playersPre.get(i)[1];
+			String color = playersPre.get(i)[4];
+			String rowPlayer = playersPre.get(i)[2];
+			String colPlayer = playersPre.get(i)[3];
+
+			if(i == 0) {
+				tempPlayer = new HumanPlayer(name, color, Integer.parseInt(rowPlayer), Integer.parseInt(colPlayer), this);
+			} else {
+				tempPlayer = new ComputerPlayer(name, color, Integer.parseInt(rowPlayer), Integer.parseInt(colPlayer), this);
+			}
+
+			players.add(tempPlayer); //Add Player to deck of Cards
+		}
+	}
+
 	private BoardCell getCenter(char initial) {
 		return roomMap.get(initial).getCenterCell();
 	}
@@ -335,27 +369,27 @@ public class Board {
 				weaponsLeft.add(deck.get(i));
 			}
 		}
-		
+
 		//Get random position from each 
 		Random r = new Random();
 		int indexPlayerSol = r.nextInt(playersLeft.size());
 		int indexRoomSol = r.nextInt(roomsLeft.size());
 		int indexWeaponSol = r.nextInt(weaponsLeft.size());
-		
+
 		//Add to solution
-		Solution sol = new Solution(playersLeft.get(indexPlayerSol), roomsLeft.get(indexRoomSol), 
-					weaponsLeft.get(indexWeaponSol));
+		solution = new Solution(playersLeft.get(indexPlayerSol), roomsLeft.get(indexRoomSol), 
+				weaponsLeft.get(indexWeaponSol));
 		//Remove from options
 		playersLeft.remove(indexPlayerSol);
 		roomsLeft.remove(indexRoomSol);
 		weaponsLeft.remove(indexWeaponSol);
-		
+
 		//Recombine the lists 
 		ArrayList<Card> dealDeck = new ArrayList<Card>();
 		dealDeck.addAll(playersLeft);
 		dealDeck.addAll(roomsLeft);
 		dealDeck.addAll(weaponsLeft);
-		
+
 		//While deal deck is not empty, hand it out to players
 		int playerNum = 0;
 		while(!dealDeck.isEmpty()) {
@@ -363,18 +397,37 @@ public class Board {
 			Card tempCard = dealDeck.get(randomSpot);
 			dealDeck.remove(randomSpot);
 			players.get(playerNum).updateHand(tempCard); //Add to player hand
-			
+			players.get(playerNum).updateSeen(tempCard); //Add to seen list
+
 			if(playerNum == players.size() - 1) {
 				playerNum = 0;
 			} else {
 				playerNum++;
 			}
 		}
-		
-		
-		
+
 	}
-	
+
+	public void setAnswer(Card person, Card room, Card weapon) {
+		solution = new Solution(person, room, weapon);
+	}
+
+	//Check check if accusation is correct
+	public boolean checkAccusation(Solution accuse) {
+		if(solution.equals(accuse)) {
+			return false;
+		}
+		return true;
+	}
+
+	//STUB; Handle suggestion 
+	//while loop that loops through players list checks at size of players list, go back to beginning
+	//Condition for while loop, while not at location, then increment
+	//If card matches suggestion, then break out of loop and return the Card
+	public Card handleSuggestion(int location, Solution suggestion) {
+		return new Card("name", CardType.ROOM);
+	}
+
 	//returns room given initial
 	public Room getRoom(char roomInitial) {
 		return roomMap.get(roomInitial);
@@ -417,12 +470,17 @@ public class Board {
 	public ArrayList<Player> getPlayers() {
 		return players;
 	}
-	
+
+	public void setPlayers(ArrayList<Player> players) {
+		this.players = players;
+	}
 	//Get deck
 	public ArrayList<Card> getDeck() {
 		return deck;
 	}
 
-
+	public Map<Character, Room> getRoomMap() {
+		return roomMap;
+	}
 
 }

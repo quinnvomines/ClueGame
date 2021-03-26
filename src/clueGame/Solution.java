@@ -12,6 +12,18 @@ public class Solution {
 		this.weapon = weapon;
 	}
 
+	public void setPerson(Card person) {
+		this.person = person;
+	}
+
+	public void setRoom(Card room) {
+		this.room = room;
+	}
+
+	public void setWeapon(Card weapon) {
+		this.weapon = weapon;
+	}
+
 	//Get person
 	public Card getPerson() {
 		return person;
@@ -25,6 +37,12 @@ public class Solution {
 	//Get weapon
 	public Card getWeapon() {
 		return weapon;
+	}
+	
+	//Equals
+	public boolean equals(Solution target) {
+		return (this.person.equals(target.getPerson()) && this.room.equals(target.getRoom())
+					&& this.weapon.equals(target.getWeapon()));
 	}
 	
 }

@@ -41,6 +41,10 @@ public class Room {
 	public BoardCell getCenterCell() {
 		return centerCell;
 	}
+	
+	public boolean equals(Room otherRoom) {
+		return this.name.equals(otherRoom.getName());
+	}
 
 	//Testing purposes
 	@Override

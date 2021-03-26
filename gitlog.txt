@@ -1,11 +1,17 @@
-commit b7d16e0c713b7723bb98f26a1ff9d28bb445108d (HEAD -> master)
+commit be1442154befd3bf10fbad22842e900cdcd1321a (HEAD -> master, origin/master)
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Sun Mar 21 16:08:29 2021 -0600
+
+    Refactored code in Board.java to be more readable and refactored to process Player input differently
+
+commit b7d16e0c713b7723bb98f26a1ff9d28bb445108d 
 Author: LucLafave <luclafave@mymail.mines.edu>
 Date:   Sat Mar 20 21:05:20 2021 -0600
 
     Got all tests in gameSetuptests.java to work
 
 commit 845f5489f49c882239301d0600e51f7ca1be5bee
-Author: Quinn <quinnvo3004724@gmail.com>
+Author: LucLafave <luclafave@mymail.mines.edu>
 Date:   Sat Mar 20 17:51:32 2021 -0600
 
     Got all tests in gameSetupTests.java to fail
