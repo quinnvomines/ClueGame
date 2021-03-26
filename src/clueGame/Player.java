@@ -4,15 +4,16 @@ import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 
 public abstract class Player {
 	private String name;
 	private Color color;
-	private Room room;
+	protected Room room;
 	protected int row;
 	protected int col;
 	
-	private ArrayList<Card> seenCards;
+	protected ArrayList<Card> seenCards;
 	private ArrayList<Card> hand;
 	
 	//Constructor
@@ -48,11 +49,35 @@ public abstract class Player {
 		return room;
 	}
 
-	//STUB; disprove a suggestion
+	//disprove a suggestion
 	//Takes in a Solution and compares it to each card in the player's hand to find if there are any matches
 	//Returns Card that matches if there is one, otherwise returns null
 	public Card disproveSuggestion(Solution testSolution) {
-		return new Card("name", CardType.ROOM);
+		ArrayList<Card> matching = new ArrayList<Card>();
+		boolean match = false;
+		for(int i = 0; i < hand.size(); i++) {
+			if(hand.get(i).getType() == CardType.PERSON) {
+				if(testSolution.getPerson().equals(hand.get(i))) {
+					matching.add(hand.get(i));
+					match = true;
+				}
+			} else if(hand.get(i).getType() == CardType.ROOM) {
+				if(testSolution.getRoom().equals(hand.get(i))) {
+					matching.add(hand.get(i));
+					match = true;
+				}
+			} else if(hand.get(i).getType() == CardType.WEAPON) {
+				if(testSolution.getWeapon().equals(hand.get(i))) {
+					matching.add(hand.get(i));
+					match = true;
+				}
+			}
+		}
+		if(match) {
+			Random r = new Random();
+			return matching.get(r.nextInt(matching.size()));
+		}
+		return null;
 	}
 	
 	//updateSeen

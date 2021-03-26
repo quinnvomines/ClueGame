@@ -71,7 +71,7 @@ public class Board {
 		}
 	}
 
-	//stub; set config files
+	//set config files
 	public void setConfigFiles(String csv, String txt) {
 		//Get data from the data folder
 		layoutConfigFile = "data/" + csv;
@@ -303,7 +303,6 @@ public class Board {
 
 	private void addPlayers() {
 		//Add players 
-		System.out.println(playersPre.size());
 		for(int i = 0; i < playersPre.size(); i++) {
 			Player tempPlayer;
 			String name = playersPre.get(i)[1];
@@ -415,17 +414,30 @@ public class Board {
 	//Check check if accusation is correct
 	public boolean checkAccusation(Solution accuse) {
 		if(solution.equals(accuse)) {
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 
-	//STUB; Handle suggestion 
+	//
+	//Handle suggestion 
 	//while loop that loops through players list checks at size of players list, go back to beginning
 	//Condition for while loop, while not at location, then increment
 	//If card matches suggestion, then break out of loop and return the Card
 	public Card handleSuggestion(int location, Solution suggestion) {
-		return new Card("name", CardType.ROOM);
+		int i = location + 1 % players.size();
+		while(i != location) {
+			
+			if(players.get(i).disproveSuggestion(suggestion) != null) {
+				return players.get(i).disproveSuggestion(suggestion);
+			}
+			
+			i++;
+			if(i == players.size()) {
+				i = 0;
+			}
+		}
+		return null;
 	}
 
 	//returns room given initial

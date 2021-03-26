@@ -37,6 +37,7 @@ public class ComputerAITest {
 		recCenterCard = new Card("Recreation Center", CardType.ROOM);
 		dormitoryCard = new Card("Dormitory", CardType.ROOM);
 		visitorCenterCard = new Card("Visitor Center", CardType.ROOM);
+		diningRoomCard = new Card("Dining Room", CardType.ROOM);
 		
 		scarlettCard = new Card("Miss Scarlett", CardType.PERSON);
 		mustardCard = new Card("Colonel Mustard", CardType.PERSON);
@@ -68,7 +69,7 @@ public class ComputerAITest {
 		assertTrue(testSol.getRoom().getCardName().equals(compPlayer1.getRoom().getName()));
 		
 		//If only one weapon not seen, it's selected
-		ComputerPlayer compPlayer2 = new ComputerPlayer("compPlayer2", "GREEN", 0, 0, board);
+		ComputerPlayer compPlayer2 = new ComputerPlayer("compPlayer2", "GREEN", 4, 19, board);
 		compPlayer2.updateSeen(knifeCard);
 		compPlayer2.updateSeen(leadPipeCard);
 		compPlayer2.updateSeen(wrenchCard);
@@ -76,10 +77,10 @@ public class ComputerAITest {
 		compPlayer2.updateSeen(revolverCard);
 		
 		testSol = compPlayer2.createSuggestion();
-		assertTrue(testSol.getWeapon().equals(candlestickCard));
+		assertTrue(testSol.getWeapon().getCardName().equals(candlestickCard.getCardName()));
 		
 		//If only one person not seen, it's selected (can be same test as weapon)
-		ComputerPlayer compPlayer3 = new ComputerPlayer("compPlayer3", "YELLOW", 0, 0, board);
+		ComputerPlayer compPlayer3 = new ComputerPlayer("compPlayer3", "YELLOW", 4, 19, board);
 		compPlayer3.updateSeen(plumCard);
 		compPlayer3.updateSeen(scarlettCard);
 		compPlayer3.updateSeen(peacockCard);
@@ -87,27 +88,29 @@ public class ComputerAITest {
 		compPlayer3.updateSeen(whiteCard);
 		
 		testSol = compPlayer3.createSuggestion();
-		assertTrue(testSol.getPerson().equals(greenCard));
+		assertTrue(testSol.getPerson().getCardName().equals(greenCard.getCardName()));
 		
 		//If multiple weapons not seen, one of them is randomly selected
-		ComputerPlayer compPlayer4 = new ComputerPlayer("compPlayer4", "YELLOW", 0, 0, board);
+		ComputerPlayer compPlayer4 = new ComputerPlayer("compPlayer4", "YELLOW", 4, 19, board);
 		compPlayer4.updateSeen(knifeCard);
 		compPlayer4.updateSeen(leadPipeCard);
 		compPlayer4.updateSeen(wrenchCard);
 		compPlayer4.updateSeen(ropeCard);
 		
 		testSol = compPlayer4.createSuggestion();
-		assertTrue(testSol.getWeapon().equals(candlestickCard) || testSol.getWeapon().equals(revolverCard));
+		assertTrue(testSol.getWeapon().getCardName().equals(candlestickCard.getCardName()) 
+				|| testSol.getWeapon().getCardName().equals(revolverCard.getCardName()));
 		
 		//If multiple persons not seen, one of them is randomly selected
-		ComputerPlayer compPlayer5 = new ComputerPlayer("compPlayer5", "YELLOW", 0, 0, board);
+		ComputerPlayer compPlayer5 = new ComputerPlayer("compPlayer5", "YELLOW", 4, 19, board);
 		compPlayer5.updateSeen(scarlettCard);
 		compPlayer5.updateSeen(plumCard);
 		compPlayer5.updateSeen(peacockCard);
 		compPlayer5.updateSeen(mustardCard);
 		
-		testSol = compPlayer4.createSuggestion();
-		assertTrue(testSol.getPerson().equals(greenCard) || testSol.getPerson().equals(whiteCard));
+		testSol = compPlayer5.createSuggestion();
+		assertTrue(testSol.getPerson().getCardName().equals(greenCard.getCardName()) 
+				|| testSol.getPerson().getCardName().equals(whiteCard.getCardName()));
 		
 	}
 	

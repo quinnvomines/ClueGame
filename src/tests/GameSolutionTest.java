@@ -41,6 +41,7 @@ public class GameSolutionTest {
 		recCenterCard = new Card("Recreation Center", CardType.ROOM);
 		dormitoryCard = new Card("Dormitory", CardType.ROOM);
 		visitorCenterCard = new Card("Visitor Center", CardType.ROOM);
+		diningRoomCard = new Card("Dining Room", CardType.ROOM);
 		
 		scarlettCard = new Card("Miss Scarlett", CardType.PERSON);
 		mustardCard = new Card("Colonel Mustard", CardType.PERSON);
@@ -89,11 +90,11 @@ public class GameSolutionTest {
 		
 		//If player has only one matching card it should be returned
 		Solution testSol = new Solution(peacockCard, bathroomCard, ropeCard);
-		assertTrue(classroomCard.equals(player.disproveSuggestion(testSol)));
+		assertTrue(peacockCard.equals(player.disproveSuggestion(testSol)));
 		
 		//If players has >1 matching card, returned card should be chosen randomly
 		testSol = new Solution(peacockCard, visitorCenterCard, ropeCard);
-		assertTrue(classroomCard.equals(player.disproveSuggestion(testSol)) || 
+		assertTrue(peacockCard.equals(player.disproveSuggestion(testSol)) || 
 				visitorCenterCard.equals(player.disproveSuggestion(testSol)));
 		
 		//If player has no matching cards, null is returned
@@ -110,6 +111,7 @@ public class GameSolutionTest {
 		Suggestion that two players can disprove, correct player (based on starting with next player in list) 
 			returns answer */
 	public void testCreateSuggestion() {
+		//Setting up tests
 		Player testPlayer2 = new HumanPlayer("testPlayer2", "RED", 0, 0, board);
 		Player testPlayer1 = new ComputerPlayer("testPlayer1", "GREEN", 0, 0, board);
 		Player testPlayer3 = new ComputerPlayer("testPlayer3", "BLUE", 0, 0, board);
@@ -151,17 +153,21 @@ public class GameSolutionTest {
 		testPlayers.add(testPlayer5);
 		testPlayers.add(testPlayer6);
 		
+		//Suggestion no one can disprove returns null
 		board.setPlayers(testPlayers);
 		assertEquals(null, board.handleSuggestion(0, solution));
 		
+		//Suggestion only accusing player can disprove returns null
 		Solution sol2 = new Solution(mustardCard, bathroomCard, revolverCard);
 		assertEquals(null, board.handleSuggestion(0, sol2));
 		
+		//Suggestion only human can disprove returns answer (i.e., card that disproves suggestion)
 		Solution sol3 = new Solution(mustardCard, visitorCenterCard, revolverCard);
 		assertEquals(visitorCenterCard, board.handleSuggestion(0, sol3));
 		
+		//Suggestion that two players can disprove, correct player (based on starting with next player in list)
 		Solution sol4 = new Solution(scarlettCard, bathroomCard, revolverCard);
-		assertEquals(visitorCenterCard, board.handleSuggestion(4, sol4));
+		assertEquals(bathroomCard, board.handleSuggestion(4, sol4));
 	}
 	
 	
