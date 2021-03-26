@@ -36,7 +36,7 @@ public class gameSetupTests {
 	//Load people and weapons from ClueSetup.txt and insure the data was loaded properly
 	public void testLoad() {
 		ArrayList<Player> players = board.getPlayers();
-		assertEquals(players.size(), 6);
+		assertEquals(6, players.size());
 
 		//Test for Miss Scarlett
 		assertEquals(players.get(0).getName(), "Miss Scarlett");

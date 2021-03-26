@@ -28,7 +28,7 @@ public class Board {
 	private String layoutConfigFile;
 	private String setupConfigFile;
 
-	private ArrayList<String[]> playersPre = new ArrayList<String[]>();
+	private ArrayList<String[]> playersPre;
 
 	//move targets list
 	private Set<BoardCell> targetsList;
@@ -81,7 +81,7 @@ public class Board {
 
 	//load setup config
 	public void loadSetupConfig() throws FileNotFoundException, BadConfigFormatException {
-
+		playersPre = new ArrayList<String[]>();
 		roomMap = new HashMap<Character, Room>(); //Initialize map
 
 		deck = new ArrayList<Card>();
@@ -123,24 +123,7 @@ public class Board {
 				Card tempCard = new Card(name, CardType.PERSON); 
 				deck.add(tempCard); //Add Player to deck of Cards
 
-				/*
-				//Prepare fields for Player constructor
-				Player tempPlayer;
-				String color = input.get(i)[4];
-				String rowPlayer = input.get(i)[2];
-				String colPlayer = input.get(i)[3];
-
-				if(firstPlayer) {
-					tempPlayer = new HumanPlayer(name, color, Integer.parseInt(rowPlayer), Integer.parseInt(colPlayer), this);
-					firstPlayer = false;
-				} else {
-					tempPlayer = new ComputerPlayer(name, color, Integer.parseInt(rowPlayer), Integer.parseInt(colPlayer), this);
-				}
-
-				players.add(tempPlayer); //Add Player to deck of Cards
-				 */
-
-				playersPre.add(input.get(i));
+				playersPre.add(input.get(i)); //Add to a temporary players list to add later
 
 			} else if (input.get(i)[0].equals("Weapon")) {
 				Card tempCard = new Card(name, CardType.WEAPON);
