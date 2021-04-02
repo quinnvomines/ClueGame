@@ -1,4 +1,16 @@
-commit 7b0dbb53e5df181bc1f663b97fe99e94197a2611 (HEAD -> master)
+commit 96c91be572c11325f881b33e23a46f555b49708e (HEAD -> master)
+Author: LucLafave <luclafave@mymail.mines.edu>
+Date:   Thu Apr 1 21:12:38 2021 -0600
+
+    Got setters working and refactored to add comments
+
+commit 8a565691c8d1baf91beb50ba0945538b68b444c0
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Thu Apr 1 21:11:20 2021 -0600
+
+    Got graphic display working
+
+commit 7b0dbb53e5df181bc1f663b97fe99e94197a2611 
 Author: LucLafave <luclafave@mymail.mines.edu>
 Date:   Fri Mar 26 11:28:29 2021 -0600
 
