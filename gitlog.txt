@@ -1,4 +1,22 @@
-commit be1442154befd3bf10fbad22842e900cdcd1321a (HEAD -> master, origin/master)
+commit 7b0dbb53e5df181bc1f663b97fe99e94197a2611 (HEAD -> master)
+Author: LucLafave <luclafave@mymail.mines.edu>
+Date:   Fri Mar 26 11:28:29 2021 -0600
+
+    refactored functions in Board
+
+commit 7c0f0814c1e2cb01b1a9e5c74299655ad7134f9a
+Author: LucLafave <luclafave@mymail.mines.edu>
+Date:   Fri Mar 26 00:49:07 2021 -0600
+
+    Got all tests passing in GameSolutionTest and ComputerAITest
+
+commit a7d9523963b1e4c3d1db1b7a06c6bd6ed01e2e92
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Thu Mar 25 20:04:49 2021 -0600
+
+    got all tests in ComputerAITest and GameSolutionTest to fail
+
+commit be1442154befd3bf10fbad22842e900cdcd1321a 
 Author: Quinn <quinnvo3004724@gmail.com>
 Date:   Sun Mar 21 16:08:29 2021 -0600
 
