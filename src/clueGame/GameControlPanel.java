@@ -95,15 +95,18 @@ public class GameControlPanel extends JPanel {
 
 	}
 
+	//Sets turn and roll number
 	public void setTurn(Player player, int rollNum) {
 		turn.setText(player.getName());
 		roll.setText(Integer.toString(rollNum));
 	}
 
+	//Set guess
 	public void setGuess(String g) {
 		guess.setText(g);
 	}
 
+	//Set guess result
 	public void setGuessResult(String gr) {
 		guessResult.setText(gr);
 	}
@@ -122,7 +125,7 @@ public class GameControlPanel extends JPanel {
 		frame.setVisible(true); // make it visible
 
 		
-		/*
+		
 		// test filling in the data
 		Board board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
@@ -130,7 +133,7 @@ public class GameControlPanel extends JPanel {
 		panel.setTurn(new ComputerPlayer( "Col. Mustard", "orange", 0, 0, board), 5);
 		panel.setGuess( "I have no guess!");
 		panel.setGuessResult( "So you have nothing?");
-		*/
+		
 
 	}
 
