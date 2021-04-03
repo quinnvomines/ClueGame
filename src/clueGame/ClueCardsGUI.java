@@ -20,6 +20,7 @@ public class ClueCardsGUI extends JPanel{
 	private JPanel roomsPanel;
 	private JPanel weaponsPanel;
 	
+	//Sets up main panel with its three sub panels for each subset of card types
 	public ClueCardsGUI() {
 		mainPanel = new JPanel();
 		mainPanel.setPreferredSize(new Dimension(200, 600));
@@ -61,22 +62,27 @@ public class ClueCardsGUI extends JPanel{
 	}
 
 	private void makeRoomsPanel() {
+		//Set up rooms panel
 		roomsPanel = new JPanel();
 		roomsPanel.setLayout(new GridLayout(0, 1));
 		roomsPanel.setPreferredSize(new Dimension(200, 800));
 		roomsPanel.setBorder(new TitledBorder (new EtchedBorder(), "Rooms"));
 		mainPanel.add(roomsPanel);
-
+		
+		//Label for hand
 		JLabel handLabel = new JLabel("In Hand:");
 		roomsPanel.add(handLabel);
 
+		//Add "none" field to hand panel
 		JTextField noneHand = new JTextField("None");
 		noneHand.setEditable(false);
 		roomsPanel.add(noneHand);
 
+		//Label for seen
 		JLabel seenLabel = new JLabel("Seen:");
 		roomsPanel.add(seenLabel);
 
+		//Add "none" field to seen panel
 		JTextField noneSeen = new JTextField("None");
 		noneSeen.setEditable(false);
 		roomsPanel.add(noneSeen);
@@ -85,21 +91,26 @@ public class ClueCardsGUI extends JPanel{
 	}
 
 	private void makeWeaponsPanel() {
+		//Set up weapons panel
 		weaponsPanel = new JPanel();
 		weaponsPanel.setLayout(new GridLayout(4, 1));
 		weaponsPanel.setBorder(new TitledBorder (new EtchedBorder(), "Weapons"));
 		mainPanel.add(weaponsPanel);
 
+		//Label for hand
 		JLabel handLabel = new JLabel("In Hand:");
 		weaponsPanel.add(handLabel);
 
+		//Add "none" field to hand panel
 		JTextField noneHand = new JTextField("None");
 		noneHand.setEditable(false);
 		weaponsPanel.add(noneHand);
 
+		//Label for seen
 		JLabel seenLabel = new JLabel("Seen:");
 		weaponsPanel.add(seenLabel);
 
+		//Add "none" field to seen panel
 		JTextField noneSeen = new JTextField("None");
 		noneSeen.setEditable(false);
 		weaponsPanel.add(noneSeen);
@@ -108,10 +119,12 @@ public class ClueCardsGUI extends JPanel{
 	
 
 	public void updatePanel(ArrayList<Card> handCards, ArrayList<Card> seenCards){
+		//Remove all hand and seen cards
 		peoplePanel.removeAll();
 		weaponsPanel.removeAll();
 		roomsPanel.removeAll();
 		
+		//Adds in hand label to each panel
 		JLabel handroomsLabel = new JLabel("In Hand:");
 		roomsPanel.add(handroomsLabel);
 		JLabel handpeopleLabel = new JLabel("In Hand:");
@@ -133,7 +146,7 @@ public class ClueCardsGUI extends JPanel{
 			}
 		}
 
-		//Remove everything in players panel and add elements of ArrayList to the players panel
+		//Remove everything in players hand and updates
 		if(!playersHandLeft.isEmpty()) {
 			for(int i = 0; i < playersHandLeft.size(); i++) {
 				JTextField playerCardName = new JTextField(playersHandLeft.get(i).getCardName());
@@ -146,7 +159,7 @@ public class ClueCardsGUI extends JPanel{
 			peoplePanel.add(none);
 		}
 		
-		//Remove everything in players panel and add elements of ArrayList to the rooms panel
+		//Remove everything in rooms hand and updates
 		if(!roomsHandLeft.isEmpty()) {
 			for(int i = 0; i < roomsHandLeft.size(); i++) {
 				JTextField roomCardName = new JTextField(roomsHandLeft.get(i).getCardName());
@@ -159,7 +172,7 @@ public class ClueCardsGUI extends JPanel{
 			roomsPanel.add(none);
 		}
 		
-		//Remove everything in players panel and add elements of ArrayList to the weapons panel
+		//Remove everything in weapons hand and updates 
 		if(!weaponsHandLeft.isEmpty()) {
 			for(int i = 0; i < weaponsHandLeft.size(); i++) {
 				JTextField weaponCardName = new JTextField(weaponsHandLeft.get(i).getCardName());
@@ -171,7 +184,8 @@ public class ClueCardsGUI extends JPanel{
 			none.setEditable(false);
 			weaponsPanel.add(none);
 		}
- // ---------------------------------------------------------------------------------------------------------------
+		
+		//Adds the label for seen for each sub panel
 		JLabel seenweaponsLabel = new JLabel("Seen:");
 		weaponsPanel.add(seenweaponsLabel);
 		JLabel seenpeopleLabel = new JLabel("Seen:");
@@ -194,7 +208,7 @@ public class ClueCardsGUI extends JPanel{
 			}
 		}
 
-		//Remove everything in players panel and add elements of ArrayList to the players panel
+		//Remove everything in players seen and updates
 		if(!playersLeft.isEmpty()) {
 			for(int i = 0; i < playersLeft.size(); i++) {
 				JTextField playerCardName = new JTextField(playersLeft.get(i).getCardName());
@@ -207,7 +221,7 @@ public class ClueCardsGUI extends JPanel{
 			peoplePanel.add(none);
 		}
 		
-		//Remove everything in players panel and add elements of ArrayList to the rooms panel
+		//Remove everything in rooms seen and updates
 		if(!roomsLeft.isEmpty()) {
 			for(int i = 0; i < roomsLeft.size(); i++) {
 				JTextField roomCardName = new JTextField(roomsLeft.get(i).getCardName());
@@ -220,7 +234,7 @@ public class ClueCardsGUI extends JPanel{
 			peoplePanel.add(none);
 		}
 		
-		//Remove everything in players panel and add elements of ArrayList to the weapons panel
+		//Remove everything in weapons seen and updates
 		if(!weaponsLeft.isEmpty()) {
 			for(int i = 0; i < weaponsLeft.size(); i++) {
 				JTextField weaponCardName = new JTextField(weaponsLeft.get(i).getCardName());
@@ -242,7 +256,7 @@ public class ClueCardsGUI extends JPanel{
 		frame.setContentPane(panel); // put the panel in the frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
 
-		//Test update seen cards
+		//Add seen cards
 		ArrayList<Card> seenCards = new ArrayList<Card>();
 		seenCards.add(new Card("Miss Scarlett", CardType.PERSON));
 		seenCards.add(new Card("Colonel Mustard", CardType.PERSON));
@@ -257,12 +271,13 @@ public class ClueCardsGUI extends JPanel{
 		seenCards.add(new Card("Classroom", CardType.ROOM));
 		seenCards.add(new Card("Visitor Center", CardType.ROOM));
 		
-		//Test update hand cards
+		//Add hand cards
 		ArrayList<Card> handCards = new ArrayList<Card>();
 		handCards.add(new Card("Wrench", CardType.WEAPON));
 		handCards.add(new Card("Colonel Mustard", CardType.PERSON));
 		handCards.add(new Card("Rope", CardType.WEAPON));
 
+		//Test update hand and seen cards
 		panel.updatePanel(handCards,seenCards);
 
        
