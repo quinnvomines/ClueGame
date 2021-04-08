@@ -1,5 +1,7 @@
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,7 +28,7 @@ public class BoardCell {
 
 	public BoardCell(int row, int col, String cellValue) {
 		adjMtx = new HashSet<BoardCell>();
-		
+
 		this.row = row;
 		this.column = col;
 		this.initial = cellValue.charAt(0);
@@ -47,10 +49,10 @@ public class BoardCell {
 			roomLabel = false;
 			roomCenter = false;
 			occupied = false;
-			
+
 			return;
 		}
-		
+
 		switch(cellValue.charAt(1)) {
 		case '^':
 			doorDirection = DoorDirection.UP;
@@ -100,14 +102,36 @@ public class BoardCell {
 			isSecretPassage = true;
 			secretPassage = cellValue.charAt(1);
 			break;
-		
+
 		}
-		
+
 		occupied = false; //Set all rooms that are longer than 1 to not be occupied or unused
 		unused = false;
 
 	}
-	
+
+	public void draw(Graphics g, double height, double width, double startRowLoc, double startColLoc) {
+		
+		if(!inRoom) {
+			g.setColor(Color.BLACK);
+			if(unused) {
+				//Unused
+				g.fillRect((int) startColLoc, (int) startRowLoc, (int) width, (int) height);
+			} 
+			else {
+				//Walkway cell
+				g.setColor(Color.YELLOW);
+				g.fillRect((int) startColLoc, (int) startRowLoc, (int) width, (int) height); //Fill yellow
+				g.setColor(Color.BLACK);
+				g.drawRect((int) startColLoc, (int) startRowLoc, (int) width, (int) height); //Draw border
+			}
+		} else {
+			//Room
+			g.setColor(Color.GRAY);
+			g.fillRect((int) startColLoc, (int) startRowLoc, (int) width, (int) height); 
+		}
+	}
+
 	//Returns whether it is a secret passage
 	public boolean isSecretPassage() {
 		return isSecretPassage;

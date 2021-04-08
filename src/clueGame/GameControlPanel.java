@@ -12,8 +12,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class GameControlPanel extends JPanel {
-	JPanel gamePanel;
-
+	
 	JTextField turn;
 	JTextField roll;
 	JTextField guess;
@@ -23,10 +22,7 @@ public class GameControlPanel extends JPanel {
 	 * Constructor for the panel, it does 90% of the work
 	 */
 	public GameControlPanel()  {
-		//Main game control panel
-		gamePanel = new JPanel();
-		gamePanel.setLayout(new GridLayout(2, 0));
-		add(gamePanel, BorderLayout.SOUTH);
+		setLayout(new GridLayout(2, 0));
 
 		makeTopPanel(); //Top panel
 		makeBottomPanel(); //Bottom panel
@@ -38,7 +34,7 @@ public class GameControlPanel extends JPanel {
 		//Make top panel
 		JPanel panel = new JPanel(); 
 		panel.setLayout(new GridLayout(1, 4));
-		gamePanel.add(panel);
+		add(panel);
 
 		JPanel panel_1 = new JPanel(); //Panel to contain JLabel and JTextfield for turn
 		JPanel panel_2 = new JPanel(); //Panel to contain JLabel and JTextfield for roll
@@ -71,7 +67,7 @@ public class GameControlPanel extends JPanel {
 		//Make bottom panel
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(0, 2));
-		gamePanel.add(panel);
+		add(panel);
 
 		//Panels to add to bottom panel
 		JPanel panel_1 = new JPanel();

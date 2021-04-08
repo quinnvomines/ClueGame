@@ -1,4 +1,16 @@
-commit 96c91be572c11325f881b33e23a46f555b49708e (HEAD -> master)
+commit 928721fa3767b18126a74eba35ac12b0a53f5e87 (HEAD -> master)
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Sat Apr 3 17:28:23 2021 -0600
+
+    Refactored to add comments and refactored to apply DRY
+
+commit a8a4bf9bd88dcbb2961d83e2a6af09a71b90b706
+Author: LucLafave <luclafave@mymail.mines.edu>
+Date:   Sat Apr 3 17:22:52 2021 -0600
+
+    Got graphics in ClueCardsGUI working
+
+commit 96c91be572c11325f881b33e23a46f555b49708e
 Author: LucLafave <luclafave@mymail.mines.edu>
 Date:   Thu Apr 1 21:12:38 2021 -0600
 

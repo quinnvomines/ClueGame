@@ -1,5 +1,9 @@
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+
 public class Room {
 	//Instance variables
 	private String name;
@@ -10,6 +14,13 @@ public class Room {
 	public Room(String name) {
 		this.name = name;
 		
+	}
+	
+	//Draw room label
+	public void draw(Graphics g, double height, double startRowLoc, double startColLoc) {
+		g.setColor(Color.BLUE);
+		g.setFont(new Font("Polyline Black", 1, (int) (height * (3.0/5))));
+		g.drawString(name, (int) startColLoc, (int) (startRowLoc + height));
 	}
 	
 	//Returns name

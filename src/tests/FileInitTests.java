@@ -108,7 +108,7 @@ public class FileInitTests {
 		assertFalse( cell.isLabel() );
 
 		// Test label cell for Student Center
-		cell = board.getCell(19, 4);
+		cell = board.getCell(18, 2);
 		room = board.getRoom( cell ) ;
 		assertTrue( room != null );
 		assertEquals( room.getName(), "Student Center" ) ;
@@ -184,7 +184,7 @@ public class FileInitTests {
 		assertTrue( room.getCenterCell() == cell );	
 
 		// Test label cell for Recreation Center
-		cell = board.getCell(24, 22);
+		cell = board.getCell(19, 18);
 		room = board.getRoom( cell ) ;
 		assertTrue( room != null );
 		assertEquals( room.getName(), "Recreation Center" ) ;
@@ -214,7 +214,7 @@ public class FileInitTests {
 		assertTrue( room.getCenterCell() == cell );
 
 		// Test label cell for Dining Room
-		cell = board.getCell(8, 10);
+		cell = board.getCell(8, 9);
 		room = board.getRoom( cell ) ;
 		assertTrue( room != null );
 		assertEquals( room.getName(), "Dining Room" ) ;

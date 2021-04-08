@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Map;
@@ -43,6 +44,13 @@ public abstract class Player {
 			this.color = null;
 		}
 		
+	}
+	
+	//Draw player location using a circle
+	public void draw(Graphics g, double width, double height, double startRowLoc, double startColLoc) {
+		g.setColor(color);
+		g.fillOval((int) startColLoc, (int) startRowLoc, (int) width, (int) height);
+		g.drawOval((int) startColLoc, (int) startRowLoc, (int) width, (int) height);
 	}
 	
 	public Room getRoom() {

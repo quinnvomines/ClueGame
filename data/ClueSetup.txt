@@ -13,7 +13,7 @@ Space, Unused, X
 Space, Walkway, W
 //Players
 Player, Miss Scarlett, 1, 7, RED
-Player, Colonel Mustard, 1, 15, YELLOW
+Player, Colonel Mustard, 1, 15, CYAN
 Player, Mrs White, 13, 0, WHITE
 Player, Reverend Green, 26, 1, GREEN
 Player, Mrs Peacock, 16, 23, BLUE

@@ -13,21 +13,16 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class ClueCardsGUI extends JPanel{
-	private JPanel mainPanel;
-
+public class KnownCardsPanel extends JPanel{
 	private JPanel peoplePanel;
 	private JPanel roomsPanel;
 	private JPanel weaponsPanel;
 	
 	//Sets up main panel with its three sub panels for each subset of card types
-	public ClueCardsGUI() {
-		mainPanel = new JPanel();
-		mainPanel.setPreferredSize(new Dimension(200, 600));
-		mainPanel.setLayout(new GridLayout(3, 1));
-		mainPanel.setBorder(new TitledBorder (new EtchedBorder(), "Known Cards"));
-		add(mainPanel, BorderLayout.NORTH);
-
+	public KnownCardsPanel() {
+		this.setLayout(new GridLayout(3, 1));
+		this.setBorder(new TitledBorder (new EtchedBorder(), "Known Cards"));
+		
 		makePeoplePanel();
 		makeRoomsPanel();
 		makeWeaponsPanel();
@@ -39,7 +34,7 @@ public class ClueCardsGUI extends JPanel{
 		peoplePanel = new JPanel();
 		peoplePanel.setLayout(new GridLayout(0, 1));
 		peoplePanel.setBorder(new TitledBorder (new EtchedBorder(), "People"));
-		mainPanel.add(peoplePanel);	
+		this.add(peoplePanel);	
 
 		//Label for hand
 		JLabel handLabel = new JLabel("In Hand:");
@@ -67,7 +62,7 @@ public class ClueCardsGUI extends JPanel{
 		roomsPanel.setLayout(new GridLayout(0, 1));
 		roomsPanel.setPreferredSize(new Dimension(200, 800));
 		roomsPanel.setBorder(new TitledBorder (new EtchedBorder(), "Rooms"));
-		mainPanel.add(roomsPanel);
+		this.add(roomsPanel);
 		
 		//Label for hand
 		JLabel handLabel = new JLabel("In Hand:");
@@ -95,7 +90,7 @@ public class ClueCardsGUI extends JPanel{
 		weaponsPanel = new JPanel();
 		weaponsPanel.setLayout(new GridLayout(4, 1));
 		weaponsPanel.setBorder(new TitledBorder (new EtchedBorder(), "Weapons"));
-		mainPanel.add(weaponsPanel);
+		this.add(weaponsPanel);
 
 		//Label for hand
 		JLabel handLabel = new JLabel("In Hand:");
@@ -250,7 +245,7 @@ public class ClueCardsGUI extends JPanel{
 	}
 
 	public static void main(String [] args) {
-		ClueCardsGUI panel = new ClueCardsGUI();  // create the panel
+		KnownCardsPanel panel = new KnownCardsPanel();  // create the panel
 		JFrame frame = new JFrame();  // create the frame
 		frame.setSize(250, 650);  // size the frame
 		frame.setContentPane(panel); // put the panel in the frame

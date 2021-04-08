@@ -1,5 +1,7 @@
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -10,9 +12,11 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JPanel;
+
 import experiment.TestBoardCell;
 
-public class Board {
+public class Board extends JPanel{
 	//Instance variables
 	private int numCols;
 	private int numRows;
@@ -402,7 +406,7 @@ public class Board {
 		return false;
 	}
 
-	//
+
 	//Handle suggestion 
 	//while loop that loops through players list checks at size of players list, go back to beginning
 	//Condition for while loop, while not at location, then increment
@@ -410,17 +414,104 @@ public class Board {
 	public Card handleSuggestion(int location, Solution suggestion) {
 		int i = location + 1 % players.size();
 		while(i != location) {
-			
+
 			if(players.get(i).disproveSuggestion(suggestion) != null) {
 				return players.get(i).disproveSuggestion(suggestion);
 			}
-			
+
 			i++;
 			if(i == players.size()) {
 				i = 0;
 			}
 		}
 		return null;
+	}
+
+	//Draws each individual cell
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		int boardWidth = this.getWidth();
+		int boardHeight = this.getHeight();
+		double cellWidth = boardWidth / numCols;
+		double cellHeight = boardHeight / numRows;
+		double startRowLoc = 0;
+		double startColLoc = 0;
+		for(int rows = 0; rows < numRows; rows++) {
+			for(int cols = 0; cols < numCols; cols++) {
+				board[rows][cols].draw(g, cellHeight, cellWidth, startRowLoc, startColLoc);
+				startColLoc = startColLoc + cellWidth; //Move to next cell in column
+			}
+			startColLoc = 0; //Set column to 0
+			startRowLoc = startRowLoc + cellHeight; //Move to next cell in row
+		}
+
+		//Add doorways
+		startRowLoc = 0;
+		startColLoc = 0;
+		for(int rows = 0; rows < numRows; rows++) {
+			for(int cols = 0; cols < numCols; cols++) {
+				if(board[rows][cols].isDoorway()) {
+					g.setColor(Color.BLUE); //Doorway color
+
+					switch(board[rows][cols].getDoorDirection()) {
+					case UP:
+						//Make doorway pointing up
+						g.fillRect((int) startColLoc, (int) (startRowLoc - 1.0/5 * cellHeight + 1), (int) cellWidth, (int) ((1.0/5) * cellHeight));
+						break;
+					case LEFT:
+						//Make doorway pointing left
+						g.fillRect((int) (startColLoc - (1.0/4) * cellWidth + 1), (int) startRowLoc, (int) ((1.0/4) * cellWidth), (int) cellHeight);
+						break;
+					case RIGHT:
+						//Make doorway pointing right
+						g.fillRect((int) (startColLoc + cellWidth), (int) startRowLoc, (int) ((1.0/4) * cellWidth), (int) cellHeight);
+						break;
+					case DOWN:
+						//Make doorway pointing down
+						g.fillRect((int) startColLoc, (int) (startRowLoc + cellHeight), (int) cellWidth, (int) ((1.0/4) * cellHeight));
+						break;
+					default:
+						//No doorway
+						break;
+					}
+				}
+				startColLoc = startColLoc + cellWidth; //Move to next cell in column
+			}
+			startColLoc = 0; //Set column to 0
+			startRowLoc = startRowLoc + cellHeight; //Move to next cell in row
+		}
+
+		//Draw room labels
+		startRowLoc = 0;
+		startColLoc = 0;
+		for(int rows = 0; rows < numRows; rows++) {
+			for(int cols = 0; cols < numCols; cols++) {
+				if(board[rows][cols].isLabel()) {
+					roomMap.get(board[rows][cols].getInitial()).draw(g, cellHeight,startRowLoc, startColLoc);
+				}
+				startColLoc = startColLoc + cellWidth; //Move to next cell in column
+			}
+			startColLoc = 0; //Set column to 0
+			startRowLoc = startRowLoc + cellHeight; //Move to next cell in row
+		}
+
+		//Draw players
+		startRowLoc = 0;
+		startColLoc = 0;
+		for(int rows = 0; rows < numRows; rows++) {
+			for(int cols = 0; cols < numCols; cols++) {
+				for(int i = 0; i < players.size(); i++) {
+					if(players.get(i).getRow() == rows && players.get(i).getCol() == cols) {
+						//Draw player
+						players.get(i).draw(g, cellWidth, cellHeight, startRowLoc, startColLoc);
+					}
+				}
+				startColLoc = startColLoc + cellWidth; //Move to next cell in column
+			}
+			startColLoc = 0; //Set column to 0
+			startRowLoc = startRowLoc + cellHeight; //Move to next cell in row
+		}
+
 	}
 
 	//returns room given initial

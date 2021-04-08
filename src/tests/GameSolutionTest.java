@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import clueGame.Board;
@@ -95,8 +96,9 @@ public class GameSolutionTest {
 		
 		//If players has >1 matching card, returned card should be chosen randomly
 		testSol = new Solution(peacockCard, visitorCenterCard, ropeCard);
-		assertTrue(peacockCard.equals(player.disproveSuggestion(testSol)) || 
-				visitorCenterCard.equals(player.disproveSuggestion(testSol)));
+		Card compare = player.disproveSuggestion(testSol);
+		assertTrue(peacockCard.equals(compare) || 
+				visitorCenterCard.equals(compare));
 		
 		//If player has no matching cards, null is returned
 		testSol = new Solution(scarlettCard, bathroomCard, ropeCard);
