@@ -2,6 +2,8 @@ package clueGame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -12,11 +14,12 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import experiment.TestBoardCell;
 
-public class Board extends JPanel{
+public class Board extends JPanel implements MouseListener{
 	//Instance variables
 	private int numCols;
 	private int numRows;
@@ -34,10 +37,16 @@ public class Board extends JPanel{
 
 	private ArrayList<String[]> playersPre;
 
+	private Player currPlayer;
+	private int currPlayerLoc;
+	private boolean currPlayerFinished;
+	private int currRoll;
+
 	//move targets list
 	private Set<BoardCell> targetsList;
 	//which cells have been visited by player
 	Set<BoardCell> visitedList;
+	GameControlPanel gameConPan;
 
 	private Map<Character, Room> roomMap;
 
@@ -63,6 +72,17 @@ public class Board extends JPanel{
 			loadSetupConfig(); //Load the setup file (txt)
 			loadLayoutConfig(); //Load the layout file (csv)
 			addPlayers();
+			addMouseListener(this);
+			if(players.isEmpty()) {
+				return;
+			}
+
+			currPlayer = players.get(0);
+			currPlayerLoc = 0;
+			currPlayerFinished = false;
+			Random r = new Random();
+			currRoll = r.nextInt(6) + 1;
+			calcTargets(board[currPlayer.getRow()][currPlayer.getCol()],currRoll);
 
 		} catch (FileNotFoundException e) {
 
@@ -303,7 +323,9 @@ public class Board extends JPanel{
 				tempPlayer = new ComputerPlayer(name, color, Integer.parseInt(rowPlayer), Integer.parseInt(colPlayer), this);
 			}
 
+			board[Integer.parseInt(rowPlayer)][Integer.parseInt(colPlayer)].setOccupied(true);
 			players.add(tempPlayer); //Add Player to deck of Cards
+
 		}
 	}
 
@@ -320,6 +342,9 @@ public class Board extends JPanel{
 		findAllTargets(startCell,pathLength);
 	}
 
+	public void setCurrPlayerFinished(boolean currPlayerFinished) {
+		this.currPlayerFinished = currPlayerFinished;
+	}
 	//recursive function to find the locations the player can move to
 	public void findAllTargets(BoardCell thisCell,int numSteps) {
 		for (BoardCell c : thisCell.getAdjList()) {
@@ -329,6 +354,8 @@ public class Board extends JPanel{
 				visitedList.add(c);
 				if((numSteps == 1 || c.isRoom()))
 				{
+					if(currPlayer instanceof HumanPlayer)
+						c.setTarget(true);
 					targetsList.add(c);
 				}
 				else
@@ -513,7 +540,36 @@ public class Board extends JPanel{
 		}
 
 	}
+	//next pressed
+	public void nextPressed() {
+		if(currPlayerLoc == players.size() - 1)
+		{
+			currPlayer = players.get(0);
+			currPlayerLoc = 0;
+		}
+		else {
+			currPlayer = players.get(currPlayerLoc + 1);
+			currPlayerLoc = currPlayerLoc + 1;
+		}
+		Random r = new Random();
+		currRoll = r.nextInt(6) + 1;
+		if(currPlayer instanceof HumanPlayer) {
+			calcTargets(board[currPlayer.getRow()][currPlayer.getCol()], currRoll);
+			currPlayerFinished = false;
+		}
+		else {
+			BoardCell cell = ((ComputerPlayer) currPlayer).selectTargets(currRoll, this);
+			board[currPlayer.getRow()][currPlayer.getCol()].setOccupied(false);
+			currPlayer.setRow(cell.getRow());
+			currPlayer.setCol(cell.getColumn());
+			board[currPlayer.getRow()][currPlayer.getCol()].setOccupied(true);
+		}
 
+	}
+
+	public boolean isCurrPlayerFinished() {
+		return currPlayerFinished;
+	}
 	//returns room given initial
 	public Room getRoom(char roomInitial) {
 		return roomMap.get(roomInitial);
@@ -568,5 +624,36 @@ public class Board extends JPanel{
 	public Map<Character, Room> getRoomMap() {
 		return roomMap;
 	}
+	public Player getCurrPlayer() {
+		return currPlayer;
+	}
+	public int getCurrRoll() {
+		return currRoll;
+	}
 
+	public void mousePressed(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}
+	public void mouseClicked(MouseEvent e) {
+		if(currPlayer instanceof HumanPlayer) {
+			for(BoardCell c : targetsList) {
+				if(c.containsClick(e.getX(),e.getY())){
+					//move player
+					board[currPlayer.getRow()][currPlayer.getCol()].setOccupied(false);
+					currPlayer.setRow(c.getRow());
+					currPlayer.setCol(c.getColumn());
+					board[currPlayer.getRow()][currPlayer.getCol()].setOccupied(true);
+					for(BoardCell bc : targetsList) {
+						bc.setTarget(false);
+					}
+					repaint();
+					//check if in room and handle suggestion
+					currPlayerFinished = true;
+					return;
+				}
+			}
+			JOptionPane.showMessageDialog(null, "Must click on a target!");
+		}	
+	}
 }

@@ -2,6 +2,8 @@ package clueGame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,6 +22,11 @@ public class BoardCell {
 	private boolean occupied;
 	private boolean unused;
 	private boolean isDoorway;
+	private boolean flagTarget;
+	private int x;
+	private int y;
+	private int width;
+	private int height;
 
 	private int row; //Location of cell on board
 	private int column; //Location of cell on board
@@ -33,6 +40,8 @@ public class BoardCell {
 		this.column = col;
 		this.initial = cellValue.charAt(0);
 		isSecretPassage = false;
+
+		flagTarget = false;
 
 		if(cellValue.length() == 1) {
 			doorDirection = DoorDirection.NONE;
@@ -111,7 +120,10 @@ public class BoardCell {
 	}
 
 	public void draw(Graphics g, double height, double width, double startRowLoc, double startColLoc) {
-		
+		x = (int)startColLoc;
+		y = (int)startRowLoc;
+		this.height = (int) height;
+		this.width = (int) width;
 		if(!inRoom) {
 			g.setColor(Color.BLACK);
 			if(unused) {
@@ -120,16 +132,33 @@ public class BoardCell {
 			} 
 			else {
 				//Walkway cell
-				g.setColor(Color.YELLOW);
+				if(flagTarget) {
+					g.setColor(Color.BLUE);
+				}
+				else {
+					g.setColor(Color.YELLOW);
+				}
 				g.fillRect((int) startColLoc, (int) startRowLoc, (int) width, (int) height); //Fill yellow
 				g.setColor(Color.BLACK);
 				g.drawRect((int) startColLoc, (int) startRowLoc, (int) width, (int) height); //Draw border
 			}
 		} else {
 			//Room
-			g.setColor(Color.GRAY);
+			if(flagTarget) {
+				g.setColor(Color.BLUE);
+			}
+			else {
+				g.setColor(Color.GRAY);
+			}
 			g.fillRect((int) startColLoc, (int) startRowLoc, (int) width, (int) height); 
 		}
+	}
+	public boolean containsClick(int mouseX, int mouseY) {
+		Rectangle rect = new Rectangle(x,y,width,height);
+		if(rect.contains(new Point(mouseX,mouseY))) {
+			return true;
+		}
+		return false;
 	}
 
 	//Returns whether it is a secret passage
@@ -223,6 +252,8 @@ public class BoardCell {
 	public boolean isRoomCenter() {
 		return roomCenter;
 	}
-
+	public void setTarget(boolean b) {
+		flagTarget = b;
+	}
 
 }

@@ -11,6 +11,7 @@ public abstract class Player {
 	private String name;
 	private Color color;
 	protected Room room;
+
 	protected int row;
 	protected int col;
 	
@@ -121,6 +122,14 @@ public abstract class Player {
 	//get col
 	public int getCol() {
 		return col;
+	}
+	
+	public void setRow(int row) {
+		this.row = row;
+	}
+
+	public void setCol(int col) {
+		this.col = col;
 	}
 	
 	

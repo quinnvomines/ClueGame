@@ -2,31 +2,38 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class GameControlPanel extends JPanel {
-	
-	JTextField turn;
-	JTextField roll;
-	JTextField guess;
-	JTextField guessResult;
+
+	private JTextField turn;
+	private JTextField roll;
+	private JTextField guess;
+	private JTextField guessResult;
+	private Board board;
 
 	/**
 	 * Constructor for the panel, it does 90% of the work
 	 */
-	public GameControlPanel()  {
+	public GameControlPanel(Board b)  {
 		setLayout(new GridLayout(2, 0));
 
 		makeTopPanel(); //Top panel
 		makeBottomPanel(); //Bottom panel
 
+		board = b;
 	}
 
 	//Helper function
@@ -37,7 +44,9 @@ public class GameControlPanel extends JPanel {
 		add(panel);
 
 		JPanel panel_1 = new JPanel(); //Panel to contain JLabel and JTextfield for turn
+		panel_1.setLayout(new GridLayout(2, 1));
 		JPanel panel_2 = new JPanel(); //Panel to contain JLabel and JTextfield for roll
+		panel_2.setLayout(new GridLayout(2, 1));
 		JButton button1 = new JButton("Make Accusation");
 		JButton button2 = new JButton("NEXT!");
 
@@ -60,6 +69,10 @@ public class GameControlPanel extends JPanel {
 		roll.setEditable(false);
 		panel_2.add(rollMessage);
 		panel_2.add(roll);
+
+		//Add ActionListener for NEXT button
+		button2.addActionListener(new NextButtonListener());
+
 	}
 
 	//Helper function
@@ -95,6 +108,19 @@ public class GameControlPanel extends JPanel {
 
 	}
 
+	private class NextButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if(!board.isCurrPlayerFinished()) {
+				JOptionPane.showMessageDialog(null, "Current player has not finished with his/her turn!");
+			}
+			else {
+				board.nextPressed();
+				setTurn(board.getCurrPlayer(), board.getCurrRoll());
+				board.repaint();
+			}
+		}
+	}
+
 	//Sets turn and roll number
 	public void setTurn(Player player, int rollNum) {
 		turn.setText(player.getName());
@@ -117,7 +143,11 @@ public class GameControlPanel extends JPanel {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		GameControlPanel panel = new GameControlPanel();  // create the panel
+		Board board = Board.getInstance();
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
+		board.initialize();
+		
+		GameControlPanel panel = new GameControlPanel(board);  // create the panel
 		JFrame frame = new JFrame();  // create the frame 
 		frame.setContentPane(panel); // put the panel in the frame
 		frame.setSize(1110, 130);  // size the frame
@@ -127,14 +157,11 @@ public class GameControlPanel extends JPanel {
 
 
 		// test filling in the data
-		Board board = Board.getInstance();
-		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
-		board.initialize();
 		panel.setTurn(new ComputerPlayer( "Col. Mustard", "orange", 0, 0, board), 5);
 		panel.setGuess( "I have no guess! ");
 		panel.setGuessResult( "So you have nothing? ");
 
 
 	}
-
+	
 }

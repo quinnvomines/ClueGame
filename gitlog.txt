@@ -1,4 +1,14 @@
-commit 928721fa3767b18126a74eba35ac12b0a53f5e87 (HEAD -> master)
+commit 0ed26b33ce4f560a24bf461c2b3d6dc008c7b364 (HEAD -> master)
+Author: LucLafave <luclafave@mymail.mines.edu>
+Date:   Wed Apr 7 20:50:43 2021 -0600
+
+    refactored to add comments and refactored to fix layering of doors
+
+commit 6cc6f223a29a36f027c33d76902f438cc2dffc6e
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Wed Apr 7 20:48:59 2021 -0600
+
+commit 928721fa3767b18126a74eba35ac12b0a53f5e87
 Author: Quinn <quinnvo3004724@gmail.com>
 Date:   Sat Apr 3 17:28:23 2021 -0600
 

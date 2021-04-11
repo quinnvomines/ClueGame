@@ -88,7 +88,7 @@ public class KnownCardsPanel extends JPanel{
 	private void makeWeaponsPanel() {
 		//Set up weapons panel
 		weaponsPanel = new JPanel();
-		weaponsPanel.setLayout(new GridLayout(4, 1));
+		weaponsPanel.setLayout(new GridLayout(0, 1));
 		weaponsPanel.setBorder(new TitledBorder (new EtchedBorder(), "Weapons"));
 		this.add(weaponsPanel);
 
@@ -136,7 +136,7 @@ public class KnownCardsPanel extends JPanel{
 				playersHandLeft.add(handCards.get(i));
 			} else if(handCards.get(i).getType() == CardType.ROOM) {
 				roomsHandLeft.add(handCards.get(i));
-			} else if(seenCards.get(i).getType() == CardType.WEAPON) {
+			} else if(handCards.get(i).getType() == CardType.WEAPON) {
 				weaponsHandLeft.add(handCards.get(i));
 			}
 		}
@@ -226,7 +226,7 @@ public class KnownCardsPanel extends JPanel{
 		} else {
 			JTextField none = new JTextField("None");
 			none.setEditable(false);
-			peoplePanel.add(none);
+			roomsPanel.add(none);
 		}
 		
 		//Remove everything in weapons seen and updates
@@ -239,7 +239,7 @@ public class KnownCardsPanel extends JPanel{
 		} else {
 			JTextField none = new JTextField("None");
 			none.setEditable(false);
-			peoplePanel.add(none);
+			weaponsPanel.add(none);
 		}
 
 	}
