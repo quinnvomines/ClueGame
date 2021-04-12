@@ -133,7 +133,7 @@ public class BoardCell {
 			else {
 				//Walkway cell
 				if(flagTarget) {
-					g.setColor(Color.BLUE);
+					g.setColor(Color.CYAN);
 				}
 				else {
 					g.setColor(Color.YELLOW);
@@ -145,7 +145,7 @@ public class BoardCell {
 		} else {
 			//Room
 			if(flagTarget) {
-				g.setColor(Color.BLUE);
+				g.setColor(Color.CYAN);
 			}
 			else {
 				g.setColor(Color.GRAY);
@@ -159,6 +159,10 @@ public class BoardCell {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean isFlagTarget() {
+		return flagTarget;
 	}
 
 	//Returns whether it is a secret passage

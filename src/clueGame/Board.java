@@ -354,8 +354,19 @@ public class Board extends JPanel implements MouseListener{
 				visitedList.add(c);
 				if((numSteps == 1 || c.isRoom()))
 				{
-					if(currPlayer instanceof HumanPlayer)
+					if(currPlayer instanceof HumanPlayer) {
 						c.setTarget(true);
+						if(c.isRoom()) {
+							//loop through roomMap
+							for(int row = 0; row < numRows; row++) {
+								for(int col = 0; col < numCols; col++) {
+									if(board[row][col].getInitial() == c.getInitial()) {
+										board[row][col].setTarget(true);
+									}
+								}
+							}
+						}
+					}
 					targetsList.add(c);
 				}
 				else
@@ -542,6 +553,7 @@ public class Board extends JPanel implements MouseListener{
 	}
 	//next pressed
 	public void nextPressed() {
+		//Advances to next player
 		if(currPlayerLoc == players.size() - 1)
 		{
 			currPlayer = players.get(0);
@@ -551,19 +563,29 @@ public class Board extends JPanel implements MouseListener{
 			currPlayer = players.get(currPlayerLoc + 1);
 			currPlayerLoc = currPlayerLoc + 1;
 		}
+		
+		//Generate roll 
 		Random r = new Random();
 		currRoll = r.nextInt(6) + 1;
 		if(currPlayer instanceof HumanPlayer) {
+			//Calculate targets
 			calcTargets(board[currPlayer.getRow()][currPlayer.getCol()], currRoll);
-			currPlayerFinished = false;
+			currPlayerFinished = false; //Flag 
 		}
 		else {
 			BoardCell cell = ((ComputerPlayer) currPlayer).selectTargets(currRoll, this);
+			//Return if no targets
+			if(cell == null) {
+				return;
+			}
+			//Move ComputerPlayer
 			board[currPlayer.getRow()][currPlayer.getCol()].setOccupied(false);
 			currPlayer.setRow(cell.getRow());
 			currPlayer.setCol(cell.getColumn());
 			board[currPlayer.getRow()][currPlayer.getCol()].setOccupied(true);
+			currPlayer.updateRoom();
 		}
+		repaint();
 
 	}
 
@@ -636,24 +658,44 @@ public class Board extends JPanel implements MouseListener{
 	public void mouseExited(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {}
 	public void mouseClicked(MouseEvent e) {
+		//If targets list empty, inform player
+		if(targetsList.isEmpty() && currPlayer instanceof HumanPlayer) {
+			currPlayerFinished = true;
+			JOptionPane.showMessageDialog(null, "Current player has no targets! Click NEXT to continue the game");
+			return;
+		}
 		if(currPlayer instanceof HumanPlayer) {
-			for(BoardCell c : targetsList) {
-				if(c.containsClick(e.getX(),e.getY())){
-					//move player
-					board[currPlayer.getRow()][currPlayer.getCol()].setOccupied(false);
-					currPlayer.setRow(c.getRow());
-					currPlayer.setCol(c.getColumn());
-					board[currPlayer.getRow()][currPlayer.getCol()].setOccupied(true);
-					for(BoardCell bc : targetsList) {
-						bc.setTarget(false);
+			for(int row = 0; row < numRows; row++) {
+				for(int col = 0; col < numCols; col++) {
+					if(board[row][col].containsClick(e.getX(),e.getY()) && board[row][col].isFlagTarget()) {
+						//move player
+						board[currPlayer.getRow()][currPlayer.getCol()].setOccupied(false);
+						if(board[row][col].isRoom()) { //Check if in room
+							Room testRoom = roomMap.get(board[row][col].getInitial());
+							currPlayer.setRow(testRoom.getCenterCell().getRow());
+							currPlayer.setCol(testRoom.getCenterCell().getColumn());
+						}
+						else {
+							currPlayer.setRow(row);
+							currPlayer.setCol(col);
+						}
+						currPlayer.updateRoom(); //Update room (null if not in one)
+						board[currPlayer.getRow()][currPlayer.getCol()].setOccupied(true);
+						
+						//Check all cell flags to false
+						for(int i = 0; i < numRows; i++) {
+							for(int j = 0; j < numCols; j++) {
+								board[i][j].setTarget(false);
+							}
+						}
+						repaint();
+						//check if in room and handle suggestion
+						currPlayerFinished = true;
+						return;
 					}
-					repaint();
-					//check if in room and handle suggestion
-					currPlayerFinished = true;
-					return;
 				}
 			}
 			JOptionPane.showMessageDialog(null, "Must click on a target!");
-		}	
+		}
 	}
 }

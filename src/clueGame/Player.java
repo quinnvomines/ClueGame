@@ -11,6 +11,7 @@ public abstract class Player {
 	private String name;
 	private Color color;
 	protected Room room;
+	private Board b;
 
 	protected int row;
 	protected int col;
@@ -23,8 +24,13 @@ public abstract class Player {
 		this.name = name;
 		this.row = row;
 		this.col = col;
+		b = board;
 		
-		this.room = null;
+		if(board.getCell(row, col).isRoom()) {
+			Map<Character, Room> roomMap = board.getRoomMap();
+			this.room = roomMap.get(board.getCell(row, col).getInitial());
+		}
+		
 		for(Map.Entry<Character, Room> entry: board.getRoomMap().entrySet()) {
 			if(entry.getKey() != 'W' && entry.getKey() != 'X') {
 				if(entry.getValue().getCenterCell().getRow() == row && entry.getValue().getCenterCell().getColumn() == col) {
@@ -50,8 +56,30 @@ public abstract class Player {
 	//Draw player location using a circle
 	public void draw(Graphics g, double width, double height, double startRowLoc, double startColLoc) {
 		g.setColor(color);
-		g.fillOval((int) startColLoc, (int) startRowLoc, (int) width, (int) height);
-		g.drawOval((int) startColLoc, (int) startRowLoc, (int) width, (int) height);
+		//If not in a room, draw normally
+		if(room == null) {
+			g.fillOval((int) startColLoc, (int) (startRowLoc), (int) width, (int) height);
+			g.drawOval((int) startColLoc, (int) startRowLoc, (int) width, (int) height);
+			return;
+		}
+		
+		//count the number of players in the room that have a lower player number than the specific player
+		int count = 0;
+		for(int i = 0; i < b.getPlayers().size(); i++) {
+			if(b.getPlayers().get(i).equals(this)) {
+				break;
+			}
+			if((b.getPlayers().get(i).getRoom() != null)){
+				if(room.equals(b.getPlayers().get(i).getRoom())) {
+					count = count + 1;
+				}
+			}
+		}
+		
+		//Draw with offset
+		g.fillOval((int) (startColLoc + count * 1.0/4 * width), (int) startRowLoc, (int) width, (int) height);
+		g.drawOval((int) (startColLoc + count * 1.0/4 * width), (int) startRowLoc, (int) width, (int) height);
+		
 	}
 	
 	public Room getRoom() {
@@ -87,6 +115,15 @@ public abstract class Player {
 			return matching.get(r.nextInt(matching.size()));
 		}
 		return null;
+	}
+	
+	public void updateRoom() {
+		if(b.getCell(row, col).isRoom()) {
+			Map<Character, Room> roomMap = b.getRoomMap();
+			this.room = roomMap.get(b.getCell(row, col).getInitial());
+		} else {
+			room = null;
+		}
 	}
 	
 	//updateSeen

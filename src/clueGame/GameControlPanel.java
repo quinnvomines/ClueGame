@@ -110,12 +110,13 @@ public class GameControlPanel extends JPanel {
 
 	private class NextButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			//Check flag
 			if(!board.isCurrPlayerFinished()) {
 				JOptionPane.showMessageDialog(null, "Current player has not finished with his/her turn!");
 			}
 			else {
-				board.nextPressed();
-				setTurn(board.getCurrPlayer(), board.getCurrRoll());
+				board.nextPressed(); //Process next pressed
+				setTurn(board.getCurrPlayer(), board.getCurrRoll()); //Set game panel
 				board.repaint();
 			}
 		}

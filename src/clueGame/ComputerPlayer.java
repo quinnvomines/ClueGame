@@ -68,6 +68,10 @@ public class ComputerPlayer extends Player{
 	public BoardCell selectTargets(int moveDistance, Board board) {
 		board.calcTargets(board.getCell(row, col), moveDistance);
 		Set<BoardCell> targets = board.getTargets(); //Get targets list
+		
+		if(targets.isEmpty()) {
+			return null;
+		}
 
 		//Add to an ArrayList
 		ArrayList<BoardCell> targetsList = new ArrayList<BoardCell>();
