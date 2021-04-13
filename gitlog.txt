@@ -1,4 +1,16 @@
-commit 0ed26b33ce4f560a24bf461c2b3d6dc008c7b364 (HEAD -> master)
+commit 28dc1b2e7b5a25051494029292789d7457e96917 (HEAD -> master)
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Sun Apr 11 22:29:29 2021 -0600
+
+    Added offset when multiple players in same room and added comments to Board, Player, and GameControlPanel class
+
+commit 452efae34e455ecf929bf85eba2cb1655f1fadc1
+Author: LucLafave <luclafave@mymail.mines.edu>
+Date:   Sun Apr 11 17:46:37 2021 -0600
+
+    Added player movement (both human and computer) and NEXT button to function correctly
+
+commit 0ed26b33ce4f560a24bf461c2b3d6dc008c7b364 
 Author: LucLafave <luclafave@mymail.mines.edu>
 Date:   Wed Apr 7 20:50:43 2021 -0600
 

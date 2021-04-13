@@ -59,6 +59,7 @@ public abstract class Player {
 		//If not in a room, draw normally
 		if(room == null) {
 			g.fillOval((int) startColLoc, (int) (startRowLoc), (int) width, (int) height);
+			g.setColor(Color.BLACK);
 			g.drawOval((int) startColLoc, (int) startRowLoc, (int) width, (int) height);
 			return;
 		}
@@ -78,6 +79,7 @@ public abstract class Player {
 		
 		//Draw with offset
 		g.fillOval((int) (startColLoc + count * 1.0/4 * width), (int) startRowLoc, (int) width, (int) height);
+		g.setColor(Color.BLACK);
 		g.drawOval((int) (startColLoc + count * 1.0/4 * width), (int) startRowLoc, (int) width, (int) height);
 		
 	}
