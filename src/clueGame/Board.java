@@ -856,7 +856,7 @@ public class Board extends JPanel implements MouseListener{
 										gameControlPanel.setGuessResult("Suggestion disproven");
 									}
 									else {
-										gameControlPanel.setGuessResult("Suggestion correct");
+										gameControlPanel.setGuessResult("No new clue");
 									}
 									gameControlPanel.revalidate();
 								}

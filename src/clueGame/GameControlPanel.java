@@ -234,7 +234,7 @@ public class GameControlPanel extends JPanel {
 				else {
 					setGuess(g.toString());
 					if(board.isWinFlag()) {
-						setGuessResult("Suggestion Correct");
+						setGuessResult("No new clue");
 					}
 					else {
 						setGuessResult("Suggestion disproven");

@@ -1,4 +1,16 @@
-commit 28dc1b2e7b5a25051494029292789d7457e96917 (HEAD -> master)
+commit bdfc7d81b3bc9681da846759d1d961324ad64af8 (HEAD -> master, origin/master)
+Author: LucLafave <luclafave@mymail.mines.edu>
+Date:   Wed Apr 21 12:29:39 2021 -0600
+
+    Added functionality for suggestion, accusation, and various bug fixes
+
+commit 137bb94555135271404a7cf1512af46049a99c08
+Author: Quinn <quinnvo3004724@gmail.com>
+Date:   Tue Apr 13 16:52:36 2021 -0600
+
+	Minor changes to outline
+
+commit 28dc1b2e7b5a25051494029292789d7457e96917 
 Author: Quinn <quinnvo3004724@gmail.com>
 Date:   Sun Apr 11 22:29:29 2021 -0600
 
