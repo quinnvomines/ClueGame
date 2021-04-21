@@ -19,14 +19,13 @@ public class KnownCardsPanel extends JPanel{
 	private JPanel weaponsPanel;
 	
 	//Sets up main panel with its three sub panels for each subset of card types
-	public KnownCardsPanel() {
+	public KnownCardsPanel(Board b) {
 		this.setLayout(new GridLayout(3, 1));
 		this.setBorder(new TitledBorder (new EtchedBorder(), "Known Cards"));
 		
 		makePeoplePanel();
 		makeRoomsPanel();
 		makeWeaponsPanel();
-
 	}
 
 	private void makePeoplePanel() {
@@ -245,7 +244,10 @@ public class KnownCardsPanel extends JPanel{
 	}
 
 	public static void main(String [] args) {
-		KnownCardsPanel panel = new KnownCardsPanel();  // create the panel
+		Board board = Board.getInstance();
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
+		board.initialize();
+		KnownCardsPanel panel = new KnownCardsPanel(board);  // create the panel
 		JFrame frame = new JFrame();  // create the frame
 		frame.setSize(250, 650);  // size the frame
 		frame.setContentPane(panel); // put the panel in the frame

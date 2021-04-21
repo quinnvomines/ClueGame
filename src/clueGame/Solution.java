@@ -45,4 +45,8 @@ public class Solution {
 					&& this.weapon.equals(target.getWeapon()));
 	}
 	
+	public String toString() {
+		return person.getCardName() + ", " + room.getCardName() + ", " + weapon.getCardName();
+	}
+	
 }

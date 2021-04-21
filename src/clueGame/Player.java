@@ -130,12 +130,27 @@ public abstract class Player {
 	
 	//updateSeen
 	public void updateSeen(Card seenCard) {
-		seenCards.add(seenCard);
+		if(seenCard == null) {
+			return;
+		}
+		boolean alreadyInSeen = false;
+		for(int i = 0; i < seenCards.size(); i++) {
+			if(seenCards.get(i).getCardName().equals(seenCard.getCardName())){
+				alreadyInSeen = true;
+			}
+		}
+		if(!alreadyInSeen) {
+			seenCards.add(seenCard);
+		}
 	}
 	
 	//returns hand
 	public ArrayList<Card> getHand() {
 		return hand;
+	}
+	//returns Seen
+	public ArrayList<Card> getSeen() {
+		return seenCards;
 	}
 
 	//Add card in hand

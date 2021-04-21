@@ -1,7 +1,12 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Dialog;
+import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
@@ -14,8 +19,14 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import experiment.TestBoardCell;
 
@@ -45,10 +56,19 @@ public class Board extends JPanel implements MouseListener{
 	//move targets list
 	private Set<BoardCell> targetsList;
 	//which cells have been visited by player
-	Set<BoardCell> visitedList;
-	GameControlPanel gameConPan;
+	private Set<BoardCell> visitedList;
+	private GameControlPanel gameControlPanel;
 
 	private Map<Character, Room> roomMap;
+
+	private boolean winFlag = false;
+	private Solution previousGuess;
+
+	//private JDialog suggestionBox;
+	//private JComboBox<String> personChoices;
+	//private JComboBox<String> weaponChoices;
+	private KnownCardsPanel knownCardsPanel;
+	private ClueGame clueGame;
 
 	/*
 	 * variable and methods used for singleton pattern
@@ -403,6 +423,8 @@ public class Board extends JPanel implements MouseListener{
 		//Add to solution
 		solution = new Solution(playersLeft.get(indexPlayerSol), roomsLeft.get(indexRoomSol), 
 				weaponsLeft.get(indexWeaponSol));
+	
+		
 		//Remove from options
 		playersLeft.remove(indexPlayerSol);
 		roomsLeft.remove(indexRoomSol);
@@ -444,13 +466,12 @@ public class Board extends JPanel implements MouseListener{
 		return false;
 	}
 
-
 	//Handle suggestion 
 	//while loop that loops through players list checks at size of players list, go back to beginning
 	//Condition for while loop, while not at location, then increment
 	//If card matches suggestion, then break out of loop and return the Card
 	public Card handleSuggestion(int location, Solution suggestion) {
-		int i = location + 1 % players.size();
+		int i = (location + 1) % players.size();
 		while(i != location) {
 
 			if(players.get(i).disproveSuggestion(suggestion) != null) {
@@ -563,7 +584,7 @@ public class Board extends JPanel implements MouseListener{
 			currPlayer = players.get(currPlayerLoc + 1);
 			currPlayerLoc = currPlayerLoc + 1;
 		}
-		
+
 		//Generate roll 
 		Random r = new Random();
 		currRoll = r.nextInt(6) + 1;
@@ -573,10 +594,20 @@ public class Board extends JPanel implements MouseListener{
 			currPlayerFinished = false; //Flag 
 		}
 		else {
+
 			BoardCell cell = ((ComputerPlayer) currPlayer).selectTargets(currRoll, this);
 			//Return if no targets
 			if(cell == null) {
 				return;
+			}
+			if(winFlag) {
+				if(checkAccusation(previousGuess)) {
+					JOptionPane.showMessageDialog(null, "You lose");
+					clueGame.dispose();
+				}
+				else {
+					winFlag = false;
+				}
 			}
 			//Move ComputerPlayer
 			board[currPlayer.getRow()][currPlayer.getCol()].setOccupied(false);
@@ -584,11 +615,44 @@ public class Board extends JPanel implements MouseListener{
 			currPlayer.setCol(cell.getColumn());
 			board[currPlayer.getRow()][currPlayer.getCol()].setOccupied(true);
 			currPlayer.updateRoom();
+			if(currPlayer.getRoom() != null) {
+				Solution newSuggestion = ((ComputerPlayer)currPlayer).createSuggestion();
+				previousGuess = newSuggestion;
+				currPlayer.updateSeen(handleSuggestion(currPlayerLoc, newSuggestion));
+				for(int i = 0; i < players.size(); i++) {
+					if(players.get(i).getName().equals(newSuggestion.getPerson().getCardName())) {
+						board[players.get(i).getRow()][players.get(i).getCol()].setOccupied(false);
+						players.get(i).setRow(cell.getRow());
+						players.get(i).setCol(cell.getColumn());
+						board[players.get(i).getRow()][players.get(i).getCol()].setOccupied(true);
+						players.get(i).updateRoom();
+						break;
+					}
+				}
+				Card c = handleSuggestion(currPlayerLoc, newSuggestion);
+				if(c == null) {
+					winFlag = true;
+				} else {
+					currPlayer.updateSeen(c);
+				}
+
+
+			}
+			else {
+				previousGuess = null;
+			}
+
 		}
 		repaint();
 
 	}
 
+	public boolean isWinFlag() {
+		return winFlag;
+	}
+	public void setPreviousGuess(Solution previousGuess) {
+		this.previousGuess = previousGuess;
+	}
 	public boolean isCurrPlayerFinished() {
 		return currPlayerFinished;
 	}
@@ -653,6 +717,22 @@ public class Board extends JPanel implements MouseListener{
 		return currRoll;
 	}
 
+	public Solution getPreviousGuess() {
+		return previousGuess;
+	}
+	
+	public void passKnownCardsPanel(KnownCardsPanel k) {
+		knownCardsPanel = k;
+	}
+	
+	public void passGameControlPanel(GameControlPanel gp) {
+		gameControlPanel = gp;
+	}
+	
+	public void passClueGame(ClueGame cg) {
+		clueGame = cg;
+	}
+	
 	public void mousePressed(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
@@ -681,7 +761,7 @@ public class Board extends JPanel implements MouseListener{
 						}
 						currPlayer.updateRoom(); //Update room (null if not in one)
 						board[currPlayer.getRow()][currPlayer.getCol()].setOccupied(true);
-						
+
 						//Check all cell flags to false
 						for(int i = 0; i < numRows; i++) {
 							for(int j = 0; j < numCols; j++) {
@@ -690,6 +770,112 @@ public class Board extends JPanel implements MouseListener{
 						}
 						repaint();
 						//check if in room and handle suggestion
+						if(board[currPlayer.getRow()][currPlayer.getCol()].isRoom()) {
+							JDialog suggestionBox = new JDialog();
+							suggestionBox.setLayout(new GridLayout(4, 2));
+							suggestionBox.setSize(500, 250); 
+							suggestionBox.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+							suggestionBox.setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
+							suggestionBox.setTitle("Make a Suggestion");
+
+							JLabel currentRoomLabel = new JLabel("Current room");
+							suggestionBox.add(currentRoomLabel);
+
+							JTextField currentRoomTextField = new JTextField(roomMap.get(board[currPlayer.getRow()][currPlayer.getCol()].getInitial()).getName());
+							currentRoomTextField.setEditable(false);
+							suggestionBox.add(currentRoomTextField);
+
+							JLabel currentPersonLabel = new JLabel("Person");
+							suggestionBox.add(currentPersonLabel);
+
+							JComboBox<String> personChoices = new JComboBox<String>();
+							for(int i = 0; i < players.size(); i++) {
+								personChoices.addItem(players.get(i).getName());
+							}
+							suggestionBox.add(personChoices);
+
+							JLabel currentWeaponLabel = new JLabel("Weapon");
+							suggestionBox.add(currentWeaponLabel);
+
+							JComboBox<String> weaponChoices = new JComboBox<String>();
+							for(int i = 0; i < deck.size(); i++) {
+								if(deck.get(i).getType() == CardType.WEAPON) {
+									weaponChoices.addItem(deck.get(i).getCardName());
+								}
+							}
+							suggestionBox.add(weaponChoices);
+
+							JButton submitButton = new JButton("Submit");
+							suggestionBox.add(submitButton);
+
+							JButton cancelButton = new JButton("Cancel");
+							suggestionBox.add(cancelButton);
+							
+							class SubmitButtonListener implements ActionListener{
+								public void actionPerformed(ActionEvent e) {
+									String roomChoice = roomMap.get(board[currPlayer.getRow()][currPlayer.getCol()].getInitial()).getName();
+									String personChoice = (String) personChoices.getSelectedItem();
+									String weaponChoice = (String) weaponChoices.getSelectedItem();
+									
+									Card r = null;
+									Card p = null;
+									Card w = null;
+									for(int i = 0; i < deck.size(); i++) {
+										if(deck.get(i).getCardName().equals(roomChoice)) {
+											r = deck.get(i);
+										}
+										else if(deck.get(i).getCardName().equals(personChoice)) {
+											p = deck.get(i);
+										}
+										else if(deck.get(i).getCardName().equals(weaponChoice)) {
+											w = deck.get(i);
+										}
+									}
+									//Move person choice
+									for(int i = 0; i < players.size(); i++) {
+										if(players.get(i).getName().equals(personChoice)) {
+											board[players.get(i).getRow()][players.get(i).getCol()].setOccupied(false);
+											players.get(i).setRow(currPlayer.getRow());
+											players.get(i).setCol(currPlayer.getCol());
+											board[players.get(i).getRow()][players.get(i).getCol()].setOccupied(true);
+											players.get(i).updateRoom();
+											break;
+										}
+									}
+									repaint();
+									
+									Solution humanSuggestion = new Solution(p,r,w);
+									currPlayer.updateSeen(handleSuggestion(0, humanSuggestion));
+									knownCardsPanel.updatePanel(currPlayer.getHand(),currPlayer.getSeen());
+									knownCardsPanel.revalidate();
+									suggestionBox.setVisible(false);
+									
+									//TODO: update the guess result and guess 
+									gameControlPanel.setGuess(humanSuggestion.toString());
+									if(handleSuggestion(0, humanSuggestion) != null) {
+										gameControlPanel.setGuessResult("Suggestion disproven");
+									}
+									else {
+										gameControlPanel.setGuessResult("Suggestion correct");
+									}
+									gameControlPanel.revalidate();
+								}
+
+							}
+							
+							class CancelButtonListener implements ActionListener{
+								public void actionPerformed(ActionEvent e) {
+									suggestionBox.setVisible(false);
+								}
+
+							}
+							
+							submitButton.addActionListener(new SubmitButtonListener());
+							cancelButton.addActionListener(new CancelButtonListener());
+							suggestionBox.setVisible(true);
+							
+						}
+
 						currPlayerFinished = true;
 						return;
 					}
